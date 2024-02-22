@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IGieckI/Perfect-Pitch-Trainer.git"
+  },
+  "author": "IGieckI, zeke-code",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IGieckI/Perfect-Pitch-Trainer/issues"
+  },
+  "homepage": "https://github.com/IGieckI/Perfect-Pitch-Trainer#readme",
+  "devDependencies": {
+    "@types/node": "^20.11.20",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "express": "^4.18.2"
+  }
+}
