@@ -4,5 +4,15 @@ import axios from 'axios'
 import './styles/style.scss'
 import 'bootstrap'
 import App from './App.vue'
+import Home from './views/Home.vue'
 
-createApp(App).mount('#app')
+const router: Router = createRouter({
+    history: createWebHistory(),
+    routes: [
+        { path: '/', component: Home}
+    ]
+})
+
+createApp(App)
+    .use(router)
+    .mount('#app')

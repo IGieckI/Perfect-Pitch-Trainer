@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import Navbar from './components/Navbar.vue';
-import ToneComponent from './components/ToneComponent.vue'
 
 </script>
 
 <template>
   <Navbar />
-  <ToneComponent />  
+  <RouterView />
 </template>
 
 <style scoped>
