@@ -28,3 +28,22 @@
         </div>
     </nav>
 </template>
+
+<style scoped lang="scss">
+.navbar {
+    $text-color: #FFFFFF;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.418);
+    
+    header {
+        color: $text-color;
+        text-align: center;
+        font-size: medium;
+    }
+
+    a {
+        color: $text-color;
+        font-weight: bold;
+    }
+}
+</style>
