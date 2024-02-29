@@ -1,0 +1,13 @@
+@import "bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&display=swap');
+
+$background-color: #540F0F;
+
+body {
+    background-color: $background-color;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Cormorant SC', sans-serif;
+    line-height: 1.6;
+}
