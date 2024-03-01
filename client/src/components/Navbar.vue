@@ -30,20 +30,21 @@
 </template>
 
 <style scoped lang="scss">
+$text-color: #FFFFFF;
+$text-hover-color: #000000;
+
 .navbar {
-    $text-color: #FFFFFF;
 
     border-bottom: 1px solid rgba(0, 0, 0, 0.418);
-    
-    header {
-        color: $text-color;
-        text-align: center;
-        font-size: medium;
-    }
+    text-align: center;
+    font-size: 700;
 
     a {
         color: $text-color;
         font-weight: bold;
+        &:hover {
+            color: $text-hover-color;
+        }
     }
 }
 </style>
