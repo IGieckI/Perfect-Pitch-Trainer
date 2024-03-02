@@ -22,3 +22,5 @@ statsRouter.get("/get_all_games", async (req: Request, res: Response) => {
         res.status(500).send(`Error retrieving games: ${error.message}`);
     }
 });
+
+export default statsRouter;

@@ -38,3 +38,5 @@ gamesRouter.post("/post_game", async (req: Request, res: Response) => {
         res.status(400).send(`Error creating game: ${error.message}`);
     }
 });
+
+export default gamesRouter;
