@@ -2,26 +2,22 @@
     <div class="container-fluid text-center">
         <div class="row">
             <h1> Hello World! </h1>
+            <Piano></Piano>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import Piano from '../components/Piano.vue';
 
 export default defineComponent({
     data() {
-        return {
-
-        }
+        return {};
     },
-
-    methods: {
-
-    },
-
+    methods: {},
     mounted() {
-
-    }
+    },
+    components: { Piano }
 })
 </script>
