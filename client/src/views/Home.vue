@@ -1,8 +1,7 @@
 <template>
     <div class="container-fluid text-center">
         <div class="row">
-            <h1> Hello World! </h1>
-            <Piano></Piano>
+            <Piano />
         </div>
     </div>
 </template>
