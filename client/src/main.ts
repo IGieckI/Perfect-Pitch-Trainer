@@ -5,11 +5,13 @@ import './styles/style.scss'
 import 'bootstrap'
 import App from './App.vue'
 import Home from './views/Home.vue'
+import SetOfNotes from './views/SetOfNotes.vue'
 
 const router: Router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/', component: Home}
+        { path: '/', component: Home},
+        { path: '/set-of-notes', component: SetOfNotes},
     ]
 })
 
