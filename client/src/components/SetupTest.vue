@@ -3,7 +3,7 @@
     <h3 class="text-center fw-bold">Setup Test</h3>
     <form class="ms-4" id="notesConfigurationForm">
       <div class="form-check" v-for="(item, index) in items" :key="index">
-        <input type="radio" :id="item" class="form-check-input" v-model="selectedItem" :value="item">
+        <input type="checkbox" :id="item" class="form-check-input" v-model="selectedItems" :value="item">
         <label class="form-check-label" :for="item">{{ item }}</label>
       </div>
       <div class="mt-3">
@@ -24,7 +24,7 @@ export default defineComponent({
   data() {
     return {
       items: ['Normal Notes', 'Minor Chords', 'Seventh Chords', 'Extended Chords', 'Major Chords', 'Augmented Chords', 'Diminished Chords', 'Chords Inversions'],
-      selectedItem: null,
+      selectedItems: [],
       exerciseNumber: 1
     }
   }
