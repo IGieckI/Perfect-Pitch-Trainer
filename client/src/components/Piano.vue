@@ -72,6 +72,80 @@ export default defineComponent({
     }
 }
 
-// MEDIA QUERIES ARE NEEDED HERE FOR RESPONSIVENESS
+// Temporary media queries
+
+@media screen and (min-width: 821px) and (max-width: 1024px) {
+    .piano-keys {
+        width: 3rem;
+        cursor: pointer;
+        position: relative;
+        height: 20rem;
+        border-radius: 10px;
+        border: 1px solid #000;
+    }
+
+    .black-key {
+        width: 2rem;
+        height: 13rem;
+        border-radius: 5px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        background-color: #000;
+        z-index: 2;
+        margin: 0 -20px 0 -20px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 820px) {
+    .piano-keys {
+        width: 3rem;
+        cursor: pointer;
+        position: relative;
+        height: 16rem;
+        border-radius: 10px;
+        border: 1px solid #000;
+    }
+
+    .black-key {
+        width: 1.8rem;
+        height: 10rem;
+        border-radius: 5px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        background-color: #000;
+        z-index: 2;
+        margin: 0 -20px 0 -20px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .piano-container {
+        width: 90%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        overflow: auto;
+    }
+
+    .piano-keys {
+        width: 3rem;
+        cursor: pointer;
+        position: relative;
+        height: 16rem;
+        border-radius: 10px;
+        border: 1px solid #000;
+    }
+
+    .black-key {
+        width: 1.8rem;
+        height: 10rem;
+        border-radius: 5px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        background-color: #000;
+        z-index: 2;
+        margin: 0 -20px 0 -20px;
+    }
+}
 
 </style>
