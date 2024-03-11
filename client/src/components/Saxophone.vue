@@ -21,6 +21,7 @@ export default defineComponent({
 });
 
 // This guy should bounce when clicked
+// Bro this guy is NOT bouncing when clicked💀💀
 
 </script>
 
