@@ -1,18 +1,9 @@
 <template>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row mt-5">
             <div class="col">
-                <SetupTest />
-            </div>
-        </div>
-        <div class="row mt-5 justify-content-center">
-            <div class="col text-center">
-                <Saxophone />
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col">
-                <Piano />
+                <SetupTest @setup-complete="setupComplete = true" v-if="!setupComplete" />
+                <Piano class="mt-4" v-if="setupComplete" />
             </div>
         </div>
     </div>
@@ -26,7 +17,9 @@ import SetupTest from '../components/SetupTest.vue';
 
 export default defineComponent({
     data() {
-        return {};
+        return {
+            setupComplete: false
+        };
     },
     methods: {},
     mounted() {

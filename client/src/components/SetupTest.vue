@@ -12,7 +12,7 @@
       </div>
     </form>
     <div class="text-center mt-4 mb-3" form="notesConfigurationForm">
-      <button type="submit" class="btn fs-5" id="setupTestSubmitButton">Confirm</button>
+      <button type="submit" class="btn fs-5" id="setupTestSubmitButton" @click.prevent="onSubmit">Confirm</button>
     </div>
   </div>
 </template>
@@ -26,6 +26,11 @@ export default defineComponent({
       items: ['Normal Notes', 'Minor Chords', 'Seventh Chords', 'Extended Chords', 'Major Chords', 'Augmented Chords', 'Diminished Chords', 'Chords Inversions'],
       selectedItems: [],
       exerciseNumber: 1
+    }
+  },
+  methods: {
+    onSubmit() {
+      this.$emit('setup-complete');
     }
   }
 })
@@ -52,7 +57,6 @@ $submit-button-color: #570000;
     .form-check-input {
       border: 2px solid black;
     }
-
   }
 
   #setupTestSubmitButton {
