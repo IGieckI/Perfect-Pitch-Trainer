@@ -1,13 +1,19 @@
 <template>
-    <div class="setup" >
-        <SetupTest />
-    </div>
-    <div class="container-fluid text-center">
+    <div class="container-fluid">
         <div class="row">
-            <Saxophone />
+            <div class="col">
+                <SetupTest />
+            </div>
         </div>
-        <div class="row">
-            <Piano />
+        <div class="row mt-5 justify-content-center">
+            <div class="col text-center">
+                <Saxophone />
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">
+                <Piano />
+            </div>
         </div>
     </div>
 </template>
