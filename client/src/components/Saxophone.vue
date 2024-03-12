@@ -7,6 +7,11 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
     name: 'Saxophone',
+    data() {
+        return {
+            hasToReplay: true
+        };
+    },
     methods: {
         bounce() {
             const saxophone = document.getElementById('saxophone');
@@ -19,7 +24,14 @@ export default defineComponent({
         },
 
         sendClick() {
-            this.$emit('saxophone-clicked');
+            // First click is to play the note, second click is to check if the note is correct
+            if (this.hasToReplay) {
+                this.$emit('play-note');
+            } else {
+                this.$emit('check-note');
+            }
+
+            this.hasToReplay = !this.hasToReplay;            
         }
     },
 });
