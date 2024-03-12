@@ -41,7 +41,6 @@ $wrapper-background-color: #ffffff;
 $wrapper-border-color: #000000;
 $submit-button-color: #570000;
 .wrapper {
-  width: 30%;
   background-color: $wrapper-background-color;
   border: 1px solid $wrapper-border-color;
   border-radius: 10px;

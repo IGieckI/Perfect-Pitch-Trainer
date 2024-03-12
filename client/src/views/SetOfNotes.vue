@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="row mt-5">
-            <div class="col">
+            <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
                 <SetupTest @setup-complete="setFilters" v-if="!setupComplete" />
                 <Saxophone class="mt-4" @saxophone-clicked="playSound()" v-if="setupComplete" />
                 <Piano class="mt-4" v-if="setupComplete" />
