@@ -30,7 +30,7 @@ export default defineComponent({
   },
   methods: {
     onSubmit() {
-      this.$emit('setup-complete', this.selectedItems);
+      this.$emit('setup-complete', this.selectedItems, this.exerciseNumber);
     }
   }
 })

@@ -1,7 +1,7 @@
 <template>
     <div class="piano-container">
         <ul class="piano-keys-list">
-            <li v-for="(note, index) in notes" :key="index" class="key" :class="{ 'black-key': isBlackKey(note), 'white-key': !isBlackKey(note) }" @mousedown="playNote(note)" @mouseup="stopNote"></li>
+            <li v-for="(note, index) in notes" :key="index" class="key" :class="{ 'black-key': isBlackKey(note), 'white-key': !isBlackKey(note) }" @mousedown="playNote(note); sendNoteEvent(note);" @mouseup="stopNote"></li>
         </ul>
     </div>
 </template>
@@ -33,7 +33,11 @@ export default defineComponent({
 
     return { notes, playNote, stopNote, isBlackKey };
     },
-});
+  methods: {
+    sendNoteEvent(note: string) {
+        this.$emit('note-played-by-player', note);
+    },
+},});
 </script>
 
 <style lang="scss">

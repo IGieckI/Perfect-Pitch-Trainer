@@ -3,9 +3,9 @@
         <div class="row mt-5">
             <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
                 <SetupTest @setup-complete="setFilters" v-if="!setupComplete" />
-                <Saxophone class="mt-4" @saxophone-clicked="playSound()" v-if="setupComplete" />
+                <Saxophone class="mt-4" @play-note="playNote()" @check-note="checkNote()" v-if="setupComplete" />
                 <h1 v-if="setupComplete">Turn: {{ currentExerciseNumber }}/{{ exerciseNumber }}</h1>
-                <Piano class="mt-4" v-if="setupComplete" />
+                <Piano @note-played-by-player="notePlayed" class="mt-4" v-if="setupComplete" />
             </div>
         </div>
     </div>
@@ -36,9 +36,9 @@ export default defineComponent({
         };
     },
     methods: {
-        playSound() {
+        playNote() {
 
-            const random_note: string[] = this.totalNotes[Math.floor(Math.random() * this.totalNotes.length)];
+            const toGuessNote: string[] = this.totalNotes[Math.floor(Math.random() * this.totalNotes.length)];
             /* CODE TO BE USED TO LOAD EACH NOTE FROM THE SERVER
             const note_urls: { [key: string]: string } = {};
 
@@ -64,7 +64,7 @@ export default defineComponent({
             }).toDestination();
 
             Tone.loaded().then(() => {
-                sampler.triggerAttackRelease(random_note, 3);
+                sampler.triggerAttackRelease(toGuessNote, 3);
             })
         },
 
@@ -78,6 +78,17 @@ export default defineComponent({
                     this.totalNotes.push(this.notes[selectedItems[i].toLowerCase()][j]);
                 }
             }
+        },
+
+        notePlayed(note: string) {
+            if (this.selectedNote.includes(note)) {
+                this.selectedNote.splice(this.selectedNote.indexOf(note), 1);
+            } else {
+                this.selectedNote.push(note);
+            }
+            console.log(this.selectedNote);
+        },
+        
         checkNote() {
             if (this.selectedNote == this.toGuessNote) {
                 let audio = new Audio(CorrectSound);
