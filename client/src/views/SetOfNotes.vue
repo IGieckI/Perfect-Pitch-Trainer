@@ -4,6 +4,7 @@
             <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
                 <SetupTest @setup-complete="setFilters" v-if="!setupComplete" />
                 <Saxophone class="mt-4" @saxophone-clicked="playSound()" v-if="setupComplete" />
+                <h1 v-if="setupComplete">Turn: {{ currentExerciseNumber }}/{{ exerciseNumber }}</h1>
                 <Piano class="mt-4" v-if="setupComplete" />
             </div>
         </div>
@@ -26,14 +27,15 @@ export default defineComponent({
             } as { [key: string]: string[][] },
             setupComplete: false,
             totalNotes: [] as string[][],
-            exerciseNumber: 0,
+            currentExerciseNumber: 1,
+            exerciseNumber: 1,
         };
     },
     methods: {
         playSound() {
 
-            const random_note: string[] = this.totalNotes[Math.floor(Math.random() * this.totalNotes.length)];            
-
+            const random_note: string[] = this.totalNotes[Math.floor(Math.random() * this.totalNotes.length)];
+            /* CODE TO BE USED TO LOAD EACH NOTE FROM THE SERVER
             const note_urls: { [key: string]: string } = {};
 
             for (let i = 0; i < random_note.length; i++) {
@@ -41,7 +43,7 @@ export default defineComponent({
                 note_url = note_url.replace('#', 's');
                 note_urls[random_note[i]] = note_url + '.mp3';
             }
-            console.log(note_urls);
+            */
 
             const sampler = new Tone.Sampler({
                 urls: {
@@ -51,25 +53,23 @@ export default defineComponent({
                     A4: "A4.mp3",
                     A5: "A5.mp3",
                     A6: "A6.mp3",
-                    A7: "A7.mp3",                    
+                    A7: "A7.mp3",
                 },
                 release: 0.3,
                 baseUrl: 'https://tonejs.github.io/audio/salamander/',
             }).toDestination();
 
             Tone.loaded().then(() => {
-                sampler.triggerAttackRelease(random_note, 1);
+                sampler.triggerAttackRelease(random_note, 3);
             })
         },
 
         setFilters(selectedItems: string[], exerciseNumber: number) {
             this.setupComplete = true;            
             this.exerciseNumber = exerciseNumber;
-
-            console.log("Tipo:" + typeof(selectedItems[0].toLowerCase()))
-
+            
             for (let i = 0; i < selectedItems.length; i++) {
-                let notes: string[][] = this.notes["normal notes"]
+                let notes: string[][] = this.notes[selectedItems[i].toLowerCase()];
                 for (let j = 0; j < notes.length; j++) {
                     this.totalNotes.push(this.notes[selectedItems[i].toLowerCase()][j]);
                 }
