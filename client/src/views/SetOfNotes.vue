@@ -17,6 +17,8 @@ import * as Tone from 'tone';
 import Piano from '../components/Piano.vue';
 import Saxophone from '../components/Saxophone.vue';
 import SetupTest from '../components/SetupTest.vue';
+import CorrectSound from '../assets/correct_sound_effect.mp3';
+import WrongSound from '../assets/wrong_sound_effect.mp3';
 
 export default defineComponent({
     data() {
@@ -29,6 +31,8 @@ export default defineComponent({
             totalNotes: [] as string[][],
             currentExerciseNumber: 1,
             exerciseNumber: 1,
+            toGuessNote: [] as string[],
+            selectedNote: [] as string[]
         };
     },
     methods: {
@@ -74,7 +78,22 @@ export default defineComponent({
                     this.totalNotes.push(this.notes[selectedItems[i].toLowerCase()][j]);
                 }
             }
-        }
+        checkNote() {
+            if (this.selectedNote == this.toGuessNote) {
+                let audio = new Audio(CorrectSound);
+                audio.play();
+            } else {
+                let audio = new Audio(WrongSound);
+                audio.play();
+            }
+
+            setTimeout(() => {
+                this.currentExerciseNumber++;
+                this.selectedNote = [];
+                this.toGuessNote = [];
+                this.playNote();
+             }, 2000);
+        },
     },
     mounted() {},
     components: { Piano, Saxophone, SetupTest }
