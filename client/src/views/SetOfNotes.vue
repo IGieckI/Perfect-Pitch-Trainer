@@ -29,6 +29,10 @@ export default defineComponent({
     },
     methods: {
         playSound() {
+
+            const random_note = this.totalNotes[Math.floor(Math.random() * this.totalNotes.length)];
+            console.log(this.totalNotes);
+
             const sampler = new Tone.Sampler({
                 urls: {
                     'C4': 'C4.mp3',
@@ -46,14 +50,15 @@ export default defineComponent({
             })
         },
 
-        setFilters(selectedItems: []) {
+        setFilters(selectedItems: String[]) {
             this.setupComplete = true
-
-            if ("normal_notes" in selectedItems) {
+            console.log(selectedItems)
+            
+            if (selectedItems.includes("Normal Notes")) {
                 this.totalNotes.push(this.normal_notes);
             }
             
-            if ("minor_chords" in selectedItems) {
+            if (selectedItems.includes("Minor Chords")) {
                 this.totalNotes.push(this.minor_chords);
             }
         }
