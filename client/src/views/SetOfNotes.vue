@@ -31,23 +31,34 @@ export default defineComponent({
     methods: {
         playSound() {
 
-            const random_note = this.totalNotes[Math.floor(Math.random() * this.totalNotes.length)];
-            console.log(this.totalNotes);
+            const random_note = this.totalNotes[Math.floor(Math.random() * this.totalNotes.length)];            
+
+            const note_urls: { [key: string]: string } = {}; // Define note_urls as an empty object            
+
+            for (let i = 0; i < random_note.length; i++) {
+                let note_url = random_note[i]; // Extract the note URL
+                console.log(note_url);
+                note_url = note_url.replace('#', 's'); // Replace '#' with 's'
+                note_urls[random_note[i]] = note_url + '.mp3'; // Assign the modified note URL to note_urls
+            }
+            console.log(note_urls);
 
             const sampler = new Tone.Sampler({
                 urls: {
-                    'C4': 'C4.mp3',
-                    'D#4': 'Ds4.mp3',
-                    'F#4': 'Fs4.mp3',
-                    'A4': 'A4.mp3',
+                    A1: "A1.mp3",
+                    A2: "A2.mp3",
+                    A3: "A3.mp3",
+                    A4: "A4.mp3",
+                    A5: "A5.mp3",
+                    A6: "A6.mp3",
+                    A7: "A7.mp3",                    
                 },
-                
                 release: 0.3,
                 baseUrl: 'https://tonejs.github.io/audio/salamander/',
             }).toDestination();
 
             Tone.loaded().then(() => {
-                sampler.triggerAttackRelease(['Eb4', 'G4', 'Bb4'], 1);
+                sampler.triggerAttackRelease(random_note, 1);
             })
         },
 
@@ -55,7 +66,9 @@ export default defineComponent({
             this.setupComplete = true;
             
             for (let i = 0; i < selectedItems.length; i++) {
-                this.totalNotes.push(this.notes[selectedItems[i].toLowerCase()]);
+                for (let j = 0; j < this.notes[selectedItems[i].toLowerCase()].length; j++) {
+                    this.totalNotes.push(this.notes[selectedItems[i].toLowerCase()][j]);
+                }
             }
         }
     },
