@@ -32,17 +32,23 @@
 <style scoped lang="scss">
 $text-color: #FFFFFF;
 $text-hover-color: #000000;
+$brand-size-px: 32px;
 $font-size-px: 26px;
+$border-color: #00000044;
 
 .navbar {
 
     text-align: center;
+    border-bottom: 1px solid $border-color;
 
     .navbar-brand {
+        font-size: $brand-size-px;
+        color: $text-color;
+        font-weight: bolder;
         margin-right: 10%;
     }
 
-    a {
+    .nav-link {
         font-size: $font-size-px;
         color: $text-color;
         font-weight: bold;
