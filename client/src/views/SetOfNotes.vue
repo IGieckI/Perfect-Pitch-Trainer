@@ -5,7 +5,7 @@
                 <SetupTest @setup-complete="setFilters" v-if="!setupComplete" />
                 <Saxophone class="mt-4" @play-note="playNote()" @check-note="checkNote()" v-if="setupComplete" />
                 <h1 v-if="setupComplete">Turn: {{ currentExerciseNumber }}/{{ exerciseNumber }}</h1>
-                <Piano @note-played-by-player="notePlayed" class="mt-4" v-if="setupComplete" />
+                <TogglePiano @note-played-by-player="notePlayed" class="mt-4" v-if="setupComplete" />
             </div>
         </div>
     </div>
@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import * as Tone from 'tone';
-import Piano from '../components/Piano.vue';
+import TogglePiano from '../components/TogglePiano.vue';
 import Saxophone from '../components/Saxophone.vue';
 import SetupTest from '../components/SetupTest.vue';
 import CorrectSound from '../assets/correct_sound_effect.mp3';
@@ -103,10 +103,10 @@ export default defineComponent({
                 this.selectedNote = [];
                 this.toGuessNote = [];
                 this.playNote();
-             }, 2000);
+            }, 2000);
         },
     },
     mounted() {},
-    components: { Piano, Saxophone, SetupTest }
+    components: { TogglePiano, Saxophone, SetupTest }
 })
-</script>
+</script>../components/TogglePiano.vue

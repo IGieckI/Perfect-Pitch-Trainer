@@ -1,14 +1,14 @@
 <template>
     <div class="container-fluid">
         <div class="row">
-            <Piano />
+            <TogglePiano />
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Piano from '../components/Piano.vue';
+import TogglePiano from '../components/TogglePiano.vue';
 
 export default defineComponent({
     data() {
@@ -17,6 +17,6 @@ export default defineComponent({
     methods: {},
     mounted() {
     },
-    components: { Piano }
+    components: { TogglePiano }
 })
 </script>

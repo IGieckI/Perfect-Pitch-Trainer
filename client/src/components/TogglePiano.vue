@@ -1,17 +1,23 @@
 <template>
     <div class="piano-container">
         <ul class="piano-keys-list">
-            <li v-for="(note, index) in notes" :key="index" class="key" :class="{ 'black-key': isBlackKey(note), 'white-key': !isBlackKey(note) }" @mousedown="playNote(note); sendNoteEvent(note);"></li>
+            <li v-for="(note, index) in notes" :key="index" class="key" 
+            :class="{ 'black-key': isBlackKey(note), 
+            'white-key': !isBlackKey(note), 
+            'selected-white-key': isSelected(note),
+            'selected-black-key': isSelected(note) && isBlackKey(note) }" 
+            @mousedown="playNote(note); 
+            sendNoteEvent(note);"></li>
         </ul>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import * as Tone from 'tone';
 
 export default defineComponent({
-    name: 'PlayablePiano',
+    name: 'TogglePiano',
     setup(_, { emit }) {
         const notes = [
         'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4',
@@ -19,10 +25,19 @@ export default defineComponent({
         'C6'
     ];
 
+    const selectedNotes = reactive([] as string[]);
+
     const synth = new Tone.Synth().toDestination();
 
     const playNote = (note: string) => {
         synth.triggerAttackRelease(note, '0.2s');
+        const noteIndex = selectedNotes.indexOf(note);
+        if (noteIndex !== -1) {
+            selectedNotes.splice(noteIndex, 1);
+        } else {
+            selectedNotes.push(note);
+        }
+        console.log(selectedNotes);
     };
 
     const isBlackKey = (note: string) => note.includes('#');
@@ -31,12 +46,20 @@ export default defineComponent({
         emit('note-played-by-player', note);
     }
 
-    return { notes, playNote, isBlackKey, sendNoteEvent };
+    const isSelected = (note: string) => {
+        return selectedNotes.includes(note);
+    }
+
+    return { notes, playNote, isBlackKey, sendNoteEvent, isSelected };
     },
 });
 </script>
 
 <style lang="scss">
+$unselected-white-key-color: #ffffff;
+$selected-white-key-color: #f0c0c0;
+$unselected-black-key-color: #000000;
+$selected-black-key-color: #7a3737;
 .piano-container {
     display: flex;
     justify-content: center;
@@ -56,7 +79,7 @@ export default defineComponent({
         border: 1px solid #000;
 
         &.white-key {
-            background-color: white;
+            background-color: $unselected-white-key-color;
         }
 
         &.black-key {
@@ -65,9 +88,17 @@ export default defineComponent({
             border-radius: 5px;
             border-top-left-radius: 0;
             border-top-right-radius: 0;
-            background-color: #000;
+            background-color: $unselected-black-key-color;
             z-index: 2;
             margin: 0 -18px 0 -18px;
+        }
+
+        &.selected-white-key {
+            background-color: $selected-white-key-color;
+        }
+
+        &.selected-black-key {
+            background-color: $selected-black-key-color;
         }
     }
 }
