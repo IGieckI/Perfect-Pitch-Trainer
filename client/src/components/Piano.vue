@@ -1,7 +1,7 @@
 <template>
     <div class="piano-container">
         <ul class="piano-keys-list">
-            <li v-for="(note, index) in notes" :key="index" class="key" :class="{ 'black-key': isBlackKey(note), 'white-key': !isBlackKey(note) }" @mousedown="playNote(note); sendNoteEvent(note);" @mouseup="stopNote"></li>
+            <li v-for="(note, index) in notes" :key="index" class="key" :class="{ 'black-key': isBlackKey(note), 'white-key': !isBlackKey(note) }" @mousedown="playNote(note); sendNoteEvent(note);"></li>
         </ul>
     </div>
 </template>
@@ -12,7 +12,7 @@ import * as Tone from 'tone';
 
 export default defineComponent({
     name: 'PlayablePiano',
-    setup() {
+    setup(_, { emit }) {
         const notes = [
         'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4',
         'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5',
@@ -22,22 +22,18 @@ export default defineComponent({
     const synth = new Tone.Synth().toDestination();
 
     const playNote = (note: string) => {
-        synth.triggerAttack(note);
-    };
-
-    const stopNote = () => {
-        synth.triggerRelease();
+        synth.triggerAttackRelease(note, '0.2s');
     };
 
     const isBlackKey = (note: string) => note.includes('#');
 
-    return { notes, playNote, stopNote, isBlackKey };
+    const sendNoteEvent = (note: string) => {
+        emit('note-played-by-player', note);
+    }
+
+    return { notes, playNote, isBlackKey, sendNoteEvent };
     },
-  methods: {
-    sendNoteEvent(note: string) {
-        this.$emit('note-played-by-player', note);
-    },
-},});
+});
 </script>
 
 <style lang="scss">
