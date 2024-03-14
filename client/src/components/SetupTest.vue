@@ -30,7 +30,16 @@ export default defineComponent({
   },
   methods: {
     onSubmit() {
-      this.$emit('setup-complete', this.selectedItems, this.exerciseNumber);
+        if (this.selectedItems.length == 0) {
+          alert('Please select at least one item');
+          return;
+        }
+
+        if (this.exerciseNumber < 1) {
+            alert('Please select a valid exercise number');
+        }
+        
+        this.$emit('setup-complete', this.selectedItems, this.exerciseNumber);
     }
   }
 })
