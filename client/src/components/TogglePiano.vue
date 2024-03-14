@@ -50,7 +50,12 @@ export default defineComponent({
         return selectedNotes.includes(note);
     }
 
-    return { notes, playNote, isBlackKey, sendNoteEvent, isSelected };
+    return { selectedNotes, notes, playNote, isBlackKey, sendNoteEvent, isSelected };
+    },
+    methods: {
+        reset() {
+            this.selectedNotes = [];
+        }
     },
 });
 </script>

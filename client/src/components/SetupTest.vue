@@ -37,6 +37,7 @@ export default defineComponent({
 
         if (this.exerciseNumber < 1) {
             alert('Please select a valid exercise number');
+            return;
         }
         
         this.$emit('setup-complete', this.selectedItems, this.exerciseNumber);
