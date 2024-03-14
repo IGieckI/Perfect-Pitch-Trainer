@@ -5,6 +5,7 @@
                 <SetupTest @setup-complete="setFilters" v-if="!setupComplete" />
                 <Saxophone class="mt-4" @play-note="playNote()" @check-note="checkNote()" v-if="setupComplete" />
                 <h1 v-if="setupComplete">Turn: {{ currentExerciseNumber }}/{{ exerciseNumber }}</h1>
+                <h2 v-if="setupComplete">{{ message }}</h2>
                 <TogglePiano @note-played-by-player="notePlayed" class="mt-4" v-if="setupComplete" />
             </div>
         </div>
@@ -29,16 +30,38 @@ export default defineComponent({
             } as { [key: string]: string[][] },
             setupComplete: false,
             totalNotes: [] as string[][],
-            currentExerciseNumber: 1,
+            currentExerciseNumber: 0,
             exerciseNumber: 1,
             toGuessNote: [] as string[],
-            selectedNote: [] as string[]
+            selectedNote: [] as string[],
+            message: "",
         };
     },
     methods: {
+        setFilters(selectedItems: string[], exerciseNumber: number) {
+            this.setupComplete = true;            
+            this.exerciseNumber = exerciseNumber;
+            this.message = "Press the saxophone to play the note!";
+            this.totalNotes = [];
+            this.currentExerciseNumber = 0;
+            
+            for (let i = 0; i < selectedItems.length; i++) {
+                let notes: string[][] = this.notes[selectedItems[i].toLowerCase()];
+                for (let j = 0; j < notes.length; j++) {
+                    this.totalNotes.push(this.notes[selectedItems[i].toLowerCase()][j]);
+                }
+            }
+        },
         playNote() {
+            if (this.currentExerciseNumber == this.exerciseNumber) {
+                this.message = "Press the saxophone to go back to the setup menu!";
+                return;
+            }
 
-            const toGuessNote: string[] = this.totalNotes[Math.floor(Math.random() * this.totalNotes.length)];
+            this.message = "Select the key(s) you think were played and then press the saxophone!";
+
+            this.toGuessNote = this.totalNotes[Math.floor(Math.random() * this.totalNotes.length)];
+            console.log(this.toGuessNote);
             /* CODE TO BE USED TO LOAD EACH NOTE FROM THE SERVER
             const note_urls: { [key: string]: string } = {};
 
@@ -62,24 +85,48 @@ export default defineComponent({
                 release: 0.3,
                 baseUrl: 'https://tonejs.github.io/audio/salamander/',
             }).toDestination();
-
-            Tone.loaded().then(() => {
-                sampler.triggerAttackRelease(toGuessNote, 3);
-            })
-        },
-
-        setFilters(selectedItems: string[], exerciseNumber: number) {
-            this.setupComplete = true;            
-            this.exerciseNumber = exerciseNumber;
             
-            for (let i = 0; i < selectedItems.length; i++) {
-                let notes: string[][] = this.notes[selectedItems[i].toLowerCase()];
-                for (let j = 0; j < notes.length; j++) {
-                    this.totalNotes.push(this.notes[selectedItems[i].toLowerCase()][j]);
-                }
-            }
-        },
+            Tone.loaded().then(() => {
+                sampler.triggerAttackRelease(this.toGuessNote, 3);
+            })
+        },        
+        checkNote() {
 
+            // Check the end of the game, show the setup menu in that case
+            if (this.currentExerciseNumber == this.exerciseNumber) {
+                this.setupComplete = false;
+                return;
+            }
+
+            console.log("-------------");
+            console.log(this.selectedNote);
+            console.log(this.toGuessNote);
+
+            this.selectedNote = this.selectedNote.map(item => item.replace(/\d/g, ''));
+            this.toGuessNote = this.toGuessNote.map(item => item.replace(/\d/g, ''));
+
+            console.log("-------------");
+            console.log(this.selectedNote);
+            console.log(this.toGuessNote);
+
+            if (this.selectedNote.length === this.toGuessNote.length && this.selectedNote.every((value, index) => value === this.toGuessNote[index])) {
+    
+                this.message = "Good girl! ";
+                let audio = new Audio(CorrectSound);
+                audio.play();
+            } else {
+                this.message = "You bastard! ";
+                let audio = new Audio(WrongSound);
+                audio.play();
+            }
+
+            this.message += "Press the saxophone to play the note!";
+
+            this.currentExerciseNumber++;
+            this.selectedNote = [];
+            this.toGuessNote = [];
+            SetupTest.reset();
+        },
         notePlayed(note: string) {
             if (this.selectedNote.includes(note)) {
                 this.selectedNote.splice(this.selectedNote.indexOf(note), 1);
@@ -88,25 +135,7 @@ export default defineComponent({
             }
             console.log(this.selectedNote);
         },
-        
-        checkNote() {
-            if (this.selectedNote == this.toGuessNote) {
-                let audio = new Audio(CorrectSound);
-                audio.play();
-            } else {
-                let audio = new Audio(WrongSound);
-                audio.play();
-            }
-
-            setTimeout(() => {
-                this.currentExerciseNumber++;
-                this.selectedNote = [];
-                this.toGuessNote = [];
-                this.playNote();
-            }, 2000);
-        },
     },
-    mounted() {},
     components: { TogglePiano, Saxophone, SetupTest }
 })
 </script>../components/TogglePiano.vue
