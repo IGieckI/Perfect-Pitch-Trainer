@@ -1,12 +1,12 @@
 <template>
     <div class="piano-container">
         <ul class="piano-keys-list">
-            <li v-for="(note, index) in notes" :key="index" class="key" 
-            :class="{ 'black-key': isBlackKey(note), 
-            'white-key': !isBlackKey(note), 
-            'selected-white-key': isSelected(note),
-            'selected-black-key': isSelected(note) && isBlackKey(note) }" 
-            @mousedown="playNote(note); 
+            <li v-for="(note, index) in notes" :key="index" class="key" :class="{
+                'black-key': isBlackKey(note),
+                'white-key': !isBlackKey(note),
+                'selected-white-key': isSelected(note),
+                'selected-black-key': isSelected(note) && isBlackKey(note)
+            }" @mousedown="playNote(note);
             sendNoteEvent(note);"></li>
         </ul>
     </div>
@@ -20,37 +20,37 @@ export default defineComponent({
     name: 'TogglePiano',
     setup(_, { emit }) {
         const notes = [
-        'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4',
-        'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5',
-        'C6'
-    ];
+            'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4',
+            'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5',
+            'C6'
+        ];
 
-    const selectedNotes = reactive([] as string[]);
+        const selectedNotes = reactive([] as string[]);
 
-    const synth = new Tone.Synth().toDestination();
+        const synth = new Tone.Synth().toDestination();
 
-    const playNote = (note: string) => {
-        synth.triggerAttackRelease(note, '0.2s');
-        const noteIndex = selectedNotes.indexOf(note);
-        if (noteIndex !== -1) {
-            selectedNotes.splice(noteIndex, 1);
-        } else {
-            selectedNotes.push(note);
+        const playNote = (note: string) => {
+            synth.triggerAttackRelease(note, '0.2s');
+            const noteIndex = selectedNotes.indexOf(note);
+            if (noteIndex !== -1) {
+                selectedNotes.splice(noteIndex, 1);
+            } else {
+                selectedNotes.push(note);
+            }
+            console.log(selectedNotes);
+        };
+
+        const isBlackKey = (note: string) => note.includes('#');
+
+        const sendNoteEvent = (note: string) => {
+            emit('note-played-by-player', note);
         }
-        console.log(selectedNotes);
-    };
 
-    const isBlackKey = (note: string) => note.includes('#');
+        const isSelected = (note: string) => {
+            return selectedNotes.includes(note);
+        }
 
-    const sendNoteEvent = (note: string) => {
-        emit('note-played-by-player', note);
-    }
-
-    const isSelected = (note: string) => {
-        return selectedNotes.includes(note);
-    }
-
-    return { selectedNotes, notes, playNote, isBlackKey, sendNoteEvent, isSelected };
+        return { selectedNotes, notes, playNote, isBlackKey, sendNoteEvent, isSelected };
     },
     methods: {
         reset() {
@@ -65,6 +65,7 @@ $unselected-white-key-color: #ffffff;
 $selected-white-key-color: #f0c0c0;
 $unselected-black-key-color: #000000;
 $selected-black-key-color: #7a3737;
+
 .piano-container {
     display: flex;
     justify-content: center;
@@ -183,5 +184,4 @@ $selected-black-key-color: #7a3737;
         margin: 0 -20px 0 -20px;
     }
 }
-
 </style>

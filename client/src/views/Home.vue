@@ -1,22 +1,15 @@
 <template>
     <div class="container-fluid">
         <div class="row">
-            <TogglePiano />
+            <div class="col-12">
+                <h1> Welcome to Perfect Pitch Trainer, please select one of the gamemodes above.</h1>
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import TogglePiano from '../components/TogglePiano.vue';
 
-export default defineComponent({
-    data() {
-        return {};
-    },
-    methods: {},
-    mounted() {
-    },
-    components: { TogglePiano }
-})
+export default defineComponent({})
 </script>

@@ -6,7 +6,9 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <router-link class="navbar-brand" to="/">Perfect Pitch Trainer</router-link>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -52,6 +54,7 @@ $border-color: #00000044;
         font-size: $font-size-px;
         color: $text-color;
         font-weight: bold;
+
         &:hover {
             color: $text-hover-color;
         }

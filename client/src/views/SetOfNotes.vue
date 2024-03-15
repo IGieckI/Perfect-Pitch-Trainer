@@ -24,20 +24,27 @@ import WrongSound from '../assets/wrong_sound_effect.mp3';
 export default defineComponent({
     data() {
         return {
+            // Define a dictionary with the notes divided by category
             notes: {
                 "normal notes": [['C1'], ['D1'], ['E1'], ['F1'], ['G1'], ['A1'], ['B1'], ['C2'], ['D2'], ['E2'], ['F2'], ['G2'], ['A2'], ['B2'], ['C3'], ['D3'], ['E3'], ['F3'], ['G3'], ['A3'], ['B3'], ['C4'], ['D4'], ['E4'], ['F4'], ['G4'], ['A4'], ['B4'], ['C5'], ['D5'], ['E5'], ['F5'], ['G5'], ['A5'], ['B5'], ['C6'], ['D6'], ['E6'], ['F6'], ['G6'], ['A6'], ['B6'], ['C7'], ['D7'], ['E7'], ['F7'], ['G7'], ['A7'], ['B7'], ['C8']],
                 "minor chords": [['C1', 'Eb', 'G'], ['C#', 'E', 'G#'], ['Db', 'Fb', 'Ab'], ['D', 'F', 'A'], ['D#', 'F#', 'A#'], ['Eb', 'Gb', 'Bb'], ['E', 'G', 'B'], ['F', 'Ab', 'C'], ['F#', 'A', 'C#'], ['Gb', 'A', 'Db'], ['G', 'Bb', 'D'], ['G#', 'B', 'D#'], ['Ab', 'Cb', 'Eb'], ['A', 'C', 'E'], ['A#', 'C#', 'E#'], ['Bb', 'Db', 'F'], ['B', 'D', 'F#']]
             } as { [key: string]: string[][] },
             setupComplete: false,
+            // Define an array to store the notes to guess chosen in the setup
             totalNotes: [] as string[][],
             currentExerciseNumber: 0,
             exerciseNumber: 1,
+            // Define an array to store the note to guess, multiple notes can be played at the same time in a chord
             toGuessNote: [] as string[],
+            // Define an array to store the notes currently selected by the user
             selectedNote: [] as string[],
             message: "",
         };
     },
     methods: {
+        /**
+         * Setup the environment
+         */
         setFilters(selectedItems: string[], exerciseNumber: number) {
             this.setupComplete = true;            
             this.exerciseNumber = exerciseNumber;
@@ -52,6 +59,10 @@ export default defineComponent({
                 }
             }
         },
+
+        /**
+         * Choose a random note to play and play it
+         */
         playNote() {
             if (this.currentExerciseNumber == this.exerciseNumber) {
                 this.message = "Press the saxophone to go back to the setup menu!";
@@ -61,7 +72,7 @@ export default defineComponent({
             this.message = "Select the key(s) you think were played and then press the saxophone!";
 
             this.toGuessNote = this.totalNotes[Math.floor(Math.random() * this.totalNotes.length)];
-            console.log(this.toGuessNote);
+            
             /* CODE TO BE USED TO LOAD EACH NOTE FROM THE SERVER
             const note_urls: { [key: string]: string } = {};
 
@@ -89,7 +100,11 @@ export default defineComponent({
             Tone.loaded().then(() => {
                 sampler.triggerAttackRelease(this.toGuessNote, 3);
             })
-        },        
+        },
+        
+        /**
+         * Check if the note played by the user is correct
+         */
         checkNote() {
 
             // Check the end of the game, show the setup menu in that case
@@ -98,16 +113,9 @@ export default defineComponent({
                 return;
             }
 
-            console.log("-------------");
-            console.log(this.selectedNote);
-            console.log(this.toGuessNote);
-
+            // Remove the octave number from the note
             this.selectedNote = this.selectedNote.map(item => item.replace(/\d/g, ''));
             this.toGuessNote = this.toGuessNote.map(item => item.replace(/\d/g, ''));
-
-            console.log("-------------");
-            console.log(this.selectedNote);
-            console.log(this.toGuessNote);
 
             if (this.selectedNote.length === this.toGuessNote.length && this.selectedNote.every((value, index) => value === this.toGuessNote[index])) {
     
@@ -127,15 +135,18 @@ export default defineComponent({
             this.toGuessNote = [];
             SetupTest.reset();
         },
+
+        /**
+         * Store the note played by the user, deselect it if it was already selected
+         */
         notePlayed(note: string) {
             if (this.selectedNote.includes(note)) {
                 this.selectedNote.splice(this.selectedNote.indexOf(note), 1);
             } else {
                 this.selectedNote.push(note);
             }
-            console.log(this.selectedNote);
         },
     },
     components: { TogglePiano, Saxophone, SetupTest }
 })
-</script>../components/TogglePiano.vue
+</script>

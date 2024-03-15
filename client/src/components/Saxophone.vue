@@ -9,7 +9,7 @@ export default defineComponent({
     name: 'Saxophone',
     data() {
         return {
-            hasToReplay: true
+            hasToPlay: true
         };
     },
     methods: {
@@ -25,13 +25,13 @@ export default defineComponent({
 
         sendClick() {
             // First click is to play the note, second click is to check if the note is correct
-            if (this.hasToReplay) {
+            if (this.hasToPlay) {
                 this.$emit('play-note');
             } else {
                 this.$emit('check-note');
             }
 
-            this.hasToReplay = !this.hasToReplay;            
+            this.hasToPlay = !this.hasToPlay;            
         }
     },
 });
