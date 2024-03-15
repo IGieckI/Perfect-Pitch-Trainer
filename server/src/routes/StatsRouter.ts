@@ -1,7 +1,7 @@
 // External Dependencies
 import express, { Request, Response } from "express";
-import { collections } from "../services/database_service";
-import Stats from "../models/stats";
+import { collections } from "../services/DatabaseService";
+import Stats from "../models/Stats";
 
 // Global Config
 export const statsRouter = express.Router();

@@ -3,8 +3,8 @@ import path from 'path';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import history from 'connect-history-api-fallback';
-import gameRouter from './routes/games_router'
-import statsRouter from './routes/stats_router'
+import gameRouter from './routes/GamesRouter'
+import statsRouter from './routes/StatsRouter'
 
 dotenv.config();
 let port: number = Number(process.env.SERVER_PORT);
