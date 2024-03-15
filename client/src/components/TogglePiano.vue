@@ -1,6 +1,6 @@
 <template>
-    <div class="piano-container">
-        <ul class="piano-keys-list">
+    <div class="toggle-piano-container">
+        <ul class="toggle-piano-keys-list">
             <li v-for="(note, index) in notes" :key="index" class="key" :class="{
                 'black-key': isBlackKey(note),
                 'white-key': !isBlackKey(note),
@@ -66,12 +66,12 @@ $selected-white-key-color: #f0c0c0;
 $unselected-black-key-color: #000000;
 $selected-black-key-color: #7a3737;
 
-.piano-container {
+.toggle-piano-container {
     display: flex;
     justify-content: center;
     align-items: center;
 
-    .piano-keys-list {
+    .toggle-piano-keys-list {
         list-style: none;
         display: flex;
         justify-content: center;
