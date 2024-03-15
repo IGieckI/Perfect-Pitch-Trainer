@@ -2,8 +2,8 @@
     <div class="wrapper text-dark">
         <h3 class="text-center fw-bold">Setup Infinite</h3>
         <div class="mt-3">
-            <h1>Best score: {{ }}</h1>
-            <h2>Last score: {{ }}</h2>
+            <h1>Best score: {{ bestScore }}</h1>
+            <h2>Last score: {{ lastScore }}</h2>
         </div>
         <div class="text-center mt-4 mb-3">
             <button class="btn fs-5" id="setupInfiniteButton" @click.prevent="onSubmit">Start</button>
@@ -15,6 +15,26 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
+    props: {
+        // Last game score
+        lastScoreP: {
+            type: Number,
+            required: true
+        }
+    },
+    data() {
+        return {
+            bestScore: 0,
+            lastScore: 0
+        }    
+    },
+    mounted() {
+        console.log("Last score: " + this.lastScoreP);
+        if (this.lastScoreP) {
+            this.lastScore = this.lastScoreP;
+            this.bestScore = this.lastScore > this.bestScore ? this.lastScore : this.bestScore;
+        }
+    },
     methods: {
         /**
          * Emits the setup-complete event
