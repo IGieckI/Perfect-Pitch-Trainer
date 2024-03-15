@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper text-dark">
         <h3 class="text-center fw-bold">Setup Test</h3>
-        <form class="ms-4" id="notesConfigurationForm">
+        <form class="ms-4 mt-3" id="notesConfigurationForm">
             <div class="form-check" v-for="(item, index) in items" :key="index">
                 <input type="checkbox" :id="item" class="form-check-input" v-model="selectedItems" :value="item">
                 <label class="form-check-label" :for="item">{{ item }}</label>

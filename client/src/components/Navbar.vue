@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-xl">
         <div class="container-fluid">
             <router-link class="navbar-brand" to="/">Perfect Pitch Trainer</router-link>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"

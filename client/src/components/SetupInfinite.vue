@@ -1,12 +1,12 @@
 <template>
-    <div class="wrapper text-dark">
-        <h3 class="text-center fw-bold">Setup Infinite</h3>
-        <div class="mt-3">
-            <h1>Best score: {{ bestScore }}</h1>
-            <h2>Last score: {{ lastScore }}</h2>
+    <div class="wrapper text-dark d-flex flex-column">
+        <h3 class="text-center fw-bolder fs-2">Infinite Mode</h3>
+        <div class="mt-3 text-left fs-3 ps-3">
+            <p>Best score: <span class="fw-bold">{{ bestScore }}</span></p>
+            <p>Last score: <span class="fw-bold">{{ lastScore }}</span></p>
         </div>
         <div class="text-center mt-4 mb-3">
-            <button class="btn fs-5" id="setupInfiniteButton" @click.prevent="onSubmit">Start</button>
+            <button class="btn" id="setupInfiniteButton" @click.prevent="onSubmit">Start</button>
         </div>
     </div>
 </template>
@@ -49,33 +49,32 @@ export default defineComponent({
 <style lang="scss">
 $wrapper-background-color: #ffffff;
 $wrapper-border-color: #000000;
+$submit-button-text-color: #ffffff;
 $submit-button-color: #570000;
 
 .wrapper {
     background-color: $wrapper-background-color;
-    border: 1px solid $wrapper-border-color;
+    border: 2px solid $wrapper-border-color;
     border-radius: 10px;
     margin: auto;
+    width: 50%;
+    height: auto;
     font-size: 22px;
-    font-weight: 500;
 
-    form {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-
-        .form-check-input {
-            border: 2px solid black;
-        }
+    @media (max-width: 890px) {
+        width: 65%;
     }
+    
 
-    #setupTestSubmitButton {
+    #setupInfiniteButton {
         background-color: $submit-button-color;
-        color: white;
+        color: $submit-button-text-color;
+        font-size: 20px;
 
         &:hover {
             background-color: lighten($submit-button-color, 10%);
         }
     }
+
 }
 </style>
