@@ -3,5 +3,5 @@ import { ObjectId } from "mongodb";
 
 // Class Implementation
 export default class Stats {
-    constructor(public max_infinity_level: number, public average_accuracy: number, public id?: ObjectId) {}
+    constructor(public max_infinite_level: number, public average_infinite_accuracy: number, public id?: ObjectId) {}
 }
