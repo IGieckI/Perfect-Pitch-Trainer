@@ -1,5 +1,5 @@
 <template>
-    <img id="saxophone" width="377" height="364" alt="Saxophone" src="../assets/saxophone.svg" @click="bounce(); sendClick();" />
+    <img id="saxophone" width="377" height="364" alt="Saxophone" src="../assets/svg/Saxophone.svg" @click="bounce(); sendClick();" />
 </template>
 
 <script lang="ts">
@@ -43,6 +43,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 #saxophone {
+    width: 90%;
     margin: auto;
 }
 
