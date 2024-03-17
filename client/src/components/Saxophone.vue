@@ -42,5 +42,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+#saxophone {
+    margin: auto;
+}
 
 </style>

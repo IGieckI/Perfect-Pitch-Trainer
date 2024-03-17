@@ -1,12 +1,14 @@
 <template>
     <div class="container-fluid">
         <div class="row mt-5">
-            <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+            <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3 justify-content-center">
                 <SetupInfinite :lastScoreP="score" :bestScore="bestScore" @setup-complete="setFilters" v-if="!setupComplete" />
-                <Saxophone class="mt-4" @play-note="playNote()" @check-note="checkNote()" v-if="setupComplete" />
-                <h1 v-if="setupComplete" class="text-light">Score: {{ score }}</h1>
-                <h2 v-if="setupComplete" class="text-light">{{ message }}</h2>
-                <TogglePiano @note-played-by-player="notePlayed" class="mt-4" v-if="setupComplete" />
+                <div class="game-wrapper d-flex flex-column justify-content-center text-center">
+                    <Saxophone class="mt-4 justify-self-center" @play-note="playNote()" @check-note="checkNote()" v-if="setupComplete" />
+                    <h1 v-if="setupComplete" class="text-light">Score: {{ score }}</h1>
+                    <h2 v-if="setupComplete" class="text-light">{{ message }}</h2>
+                    <TogglePiano @note-played-by-player="notePlayed" class="mt-4" v-if="setupComplete" />
+                </div>
             </div>
         </div>
     </div>
@@ -21,13 +23,6 @@ import SetupInfinite from '../components/SetupInfinite.vue';
 import CorrectSound from '../assets/correct_sound_effect.mp3';
 import WrongSound from '../assets/wrong_sound_effect.mp3';
 
-
-/**
- * There's a big issue with the game at the moment. If the user selects an exercise number bigger than one,
- * and gets the first note correctly, they can just start spamming on the saxophone to get through all the
- * next levels. Sometimes notes are not even played, and it seems like there is some issue at the core.
- * The game doesn't fail unless the user deselects the note. If the user does so, the game will bug.
- */
 export default defineComponent({
     data() {
         return {
