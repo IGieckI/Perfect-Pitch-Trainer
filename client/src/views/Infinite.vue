@@ -21,6 +21,13 @@ import SetupInfinite from '../components/SetupInfinite.vue';
 import CorrectSound from '../assets/correct_sound_effect.mp3';
 import WrongSound from '../assets/wrong_sound_effect.mp3';
 
+
+/**
+ * There's a big issue with the game at the moment. If the user selects an exercise number bigger than one,
+ * and gets the first note correctly, they can just start spamming on the saxophone to get through all the
+ * next levels. Sometimes notes are not even played, and it seems like there is some issue at the core.
+ * The game doesn't fail unless the user deselects the note. If the user does so, the game will bug.
+ */
 export default defineComponent({
     data() {
         return {
