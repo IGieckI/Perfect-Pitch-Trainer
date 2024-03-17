@@ -67,10 +67,14 @@ $title-stroke-color: #000000;
 .title {
     color: $title-color;
     font-size: 50px;
+
+    @media (max-width: 906px) {
+        font-size: 30px;
+    }
 }
 
 .container-home {
-    width: 100%;
+    width: 80%;
     margin: auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
