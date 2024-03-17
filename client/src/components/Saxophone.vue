@@ -1,5 +1,5 @@
 <template>
-    <img id="saxophone" width="300" height="300" alt="Saxophone" src="../assets/svg/Saxophone.svg" @click="bounce(); sendClick();" />
+    <img id="saxophone" width="300" height="300" alt="Saxophone" src="../assets/svg/Saxophone.svg" @click="sendClick();" />
 </template>
 
 <script lang="ts">
