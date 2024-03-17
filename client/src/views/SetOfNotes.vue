@@ -19,7 +19,7 @@ import { defineComponent } from 'vue';
 import * as Tone from 'tone';
 import TogglePiano from '../components/TogglePiano.vue';
 import Saxophone from '../components/Saxophone.vue';
-import SetupTest from '../components/SetupTest.vue';
+import SetupTest from '../components/SetupSetOfNotes.vue';
 import CorrectSound from '../assets/correct_sound_effect.mp3';
 import WrongSound from '../assets/wrong_sound_effect.mp3';
 
@@ -161,4 +161,4 @@ export default defineComponent({
 
 <style scoped lang="scss">
 
-</style>
+</style>../components/SetupSetOfNotes.vue
