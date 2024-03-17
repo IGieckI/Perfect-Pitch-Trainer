@@ -1,5 +1,5 @@
 <template>
-    <img id="saxophone" width="377" height="364" alt="Saxophone" src="../assets/svg/Saxophone.svg" @click="bounce(); sendClick();" />
+    <img id="saxophone" width="300" height="300" alt="Saxophone" src="../assets/svg/Saxophone.svg" @click="bounce(); sendClick();" />
 </template>
 
 <script lang="ts">
@@ -13,15 +13,6 @@ export default defineComponent({
         };
     },
     methods: {
-        bounce() {
-            const saxophone = document.getElementById('saxophone');
-            if (saxophone) {
-                saxophone.style.animation = 'bounce 0.5s';
-                setTimeout(() => {
-                    saxophone.style.animation = '';
-                }, 500);
-            }
-        },
 
         sendClick() {
             // First click is to play the note, second click is to check if the note is correct
@@ -36,15 +27,13 @@ export default defineComponent({
     },
 });
 
-// This guy should bounce when clicked
-// Bro this guy is NOT bouncing when clicked💀💀
-
 </script>
 
 <style scoped lang="scss">
 #saxophone {
     width: 90%;
     margin: auto;
+    cursor: pointer;
 }
 
 </style>
