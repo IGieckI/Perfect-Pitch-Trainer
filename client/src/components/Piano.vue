@@ -41,7 +41,7 @@ export default defineComponent({
 },});
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .piano-container {
     display: flex;
     justify-content: center;

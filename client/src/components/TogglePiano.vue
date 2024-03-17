@@ -60,7 +60,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 $unselected-white-key-color: #ffffff;
 $selected-white-key-color: #f0c0c0;
 $unselected-black-key-color: #000000;
