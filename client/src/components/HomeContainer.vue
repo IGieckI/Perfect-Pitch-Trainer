@@ -32,7 +32,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 $wrapper-background-color: #dddddd;
 $wrapper-hover-background-color: #ffffff;
 $wrapper-border-color: #000000;
@@ -43,7 +43,6 @@ $submit-button-color: #570000;
     background-color: $wrapper-background-color;
     border: 2px solid $wrapper-border-color;
     border-radius: 20px;
-    width: 25%;
     height: auto;
     font-size: 22px;
     transition: transform 0.3s ease-in-out;

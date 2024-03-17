@@ -48,7 +48,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 $title-color: #ffffff;
 $title-stroke-color: #000000;
 
@@ -64,13 +64,14 @@ $title-stroke-color: #000000;
     grid-template-columns: 1fr 1fr;
     justify-items: center;
     row-gap: 30px;
+
     .container-home-item {
-        width: 50%;
+        width: 60%;
     }
 
     @media (max-width: 906px) {
         .container-home-item {
-            width: 70%;
+            width: 80%;
         }
         grid-template-columns: 1fr;
     }

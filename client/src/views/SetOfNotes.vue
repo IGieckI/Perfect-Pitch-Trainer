@@ -4,8 +4,8 @@
             <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
                 <SetupTest @setup-complete="setFilters" v-if="!setupComplete" />
                 <Saxophone class="mt-4" @play-note="playNote()" @check-note="checkNote()" v-if="setupComplete" />
-                <h1 v-if="setupComplete">Turn: {{ currentExerciseNumber }}/{{ exerciseNumber }}</h1>
-                <h2 v-if="setupComplete">{{ message }}</h2>
+                <h1 v-if="setupComplete" class="text-light">Turn: {{ currentExerciseNumber }}/{{ exerciseNumber }}</h1>
+                <h2 v-if="setupComplete" class="text-light">{{ message }}</h2>
                 <TogglePiano @note-played-by-player="notePlayed" class="mt-4" v-if="setupComplete" />
             </div>
         </div>
@@ -150,3 +150,7 @@ export default defineComponent({
     components: { TogglePiano, Saxophone, SetupTest }
 })
 </script>
+
+<style scoped lang="scss">
+
+</style>

@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper text-dark">
-        <h3 class="text-center fw-bold">Setup Test</h3>
+        <h3 class="text-center fw-bold">Select the Chords you'd like to train on</h3>
         <form class="ms-4 mt-3" id="notesConfigurationForm">
             <div class="form-check" v-for="(item, index) in items" :key="index">
                 <input type="checkbox" :id="item" class="form-check-input" v-model="selectedItems" :value="item">
@@ -12,7 +12,7 @@
             </div>
         </form>
         <div class="text-center mt-4 mb-3" form="notesConfigurationForm">
-            <button type="submit" class="btn fs-5" id="setupTestSubmitButton" @click.prevent="onSubmit">Confirm</button>
+            <button type="submit" class="btn fs-5" @click.prevent="onSubmit">Confirm</button>
         </div>
     </div>
 </template>
@@ -50,7 +50,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 $wrapper-background-color: #ffffff;
 $wrapper-border-color: #000000;
 $submit-button-color: #570000;
@@ -62,7 +62,6 @@ $submit-button-color: #570000;
     margin: auto;
     font-size: 22px;
     font-weight: 500;
-
     form {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -73,7 +72,7 @@ $submit-button-color: #570000;
         }
     }
 
-    #setupTestSubmitButton {
+    .btn {
         background-color: $submit-button-color;
         color: white;
 

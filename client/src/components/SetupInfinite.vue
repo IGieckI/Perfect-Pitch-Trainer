@@ -6,7 +6,7 @@
             <p>Last score: <span class="fw-bold">{{ lastScore }}</span></p>
         </div>
         <div class="text-center mt-4 mb-3">
-            <button class="btn" id="setupInfiniteButton" @click.prevent="onSubmit">Start</button>
+            <button class="btn" @click.prevent="onSubmit">Start</button>
         </div>
     </div>
 </template>
@@ -46,7 +46,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 $wrapper-background-color: #ffffff;
 $wrapper-border-color: #000000;
 $submit-button-text-color: #ffffff;
@@ -57,8 +57,7 @@ $submit-button-color: #570000;
     border: 2px solid $wrapper-border-color;
     border-radius: 10px;
     margin: auto;
-    width: 50%;
-    height: auto;
+    width: 60%;
     font-size: 22px;
 
     @media (max-width: 890px) {
@@ -66,10 +65,11 @@ $submit-button-color: #570000;
     }
     
 
-    #setupInfiniteButton {
+    .btn {
         background-color: $submit-button-color;
         color: $submit-button-text-color;
         font-size: 20px;
+        font-weight: bold;
 
         &:hover {
             background-color: lighten($submit-button-color, 10%);
