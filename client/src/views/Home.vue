@@ -6,22 +6,22 @@
             </div>
         </div>
         <div class="container-home mt-5">
-            <HomeContainer class="container-home-item" @button-clicked="handleActionClicked">
+            <HomeContainer class="container-home-item" @button-clicked="infiniteButtonClick">
                 <template #title>Infinite</template>
                 <template #content>Best score goes here</template>
                 <template #action>Start</template>
             </HomeContainer>
-            <HomeContainer class="container-home-item" @button-clicked="handleActionClicked">
+            <HomeContainer class="container-home-item" @button-clicked="setOfNotesButtonClick">
                 <template #title>Set Of Notes</template>
                 <template #content>Correct Guess Percentage: 100%</template>
                 <template #action>Start</template>
             </HomeContainer>
-            <HomeContainer class="container-home-item" @button-clicked="handleActionClicked">
+            <HomeContainer class="container-home-item" @button-clicked="sandboxButtonClick">
                 <template #title>Sandbox</template>
                 <template #content>Practice in Sandbox mode</template>
                 <template #action>Start</template>
             </HomeContainer>
-            <HomeContainer class="container-home-item" @button-clicked="handleActionClicked">
+            <HomeContainer class="container-home-item" @button-clicked="statsButtonClick">
                 <template #title>Stats</template>
                 <template #content>See your statistics</template>
                 <template #action>See</template>
@@ -40,8 +40,20 @@ export default defineComponent({
 
     },
     methods: {
-        handleActionClicked() {
-            console.log(`Button clicked in component!`)
+        infiniteButtonClick() {
+            this.$router.push('/infinite');
+        },
+
+        setOfNotesButtonClick() {
+            this.$router.push('/set-of-notes');
+        },
+
+        sandboxButtonClick() {
+            this.$router.push('/sandbox');
+        },
+
+        statsButtonClick() {
+            this.$router.push('/stats');
         }
     }
 
