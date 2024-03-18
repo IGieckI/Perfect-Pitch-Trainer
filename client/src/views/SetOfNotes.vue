@@ -22,6 +22,7 @@ import Saxophone from '../components/Saxophone.vue';
 import SetupTest from '../components/SetupSetOfNotes.vue';
 import CorrectSound from '../assets/correct_sound_effect.mp3';
 import WrongSound from '../assets/wrong_sound_effect.mp3';
+import SetupInfinite from '../components/SetupInfinite.vue';
 
 /**
  * There's a big issue with the game at the moment. If the user selects an exercise number bigger than one,
@@ -115,6 +116,8 @@ export default defineComponent({
          */
         checkNote() {
 
+            console.log(`Notes selected: ${this.selectedNote}`);
+            console.log(`Notes to guess: ${this.toGuessNote}`);
             // Check the end of the game, show the setup menu in that case
             if (this.currentExerciseNumber == this.exerciseNumber) {
                 this.setupComplete = false;
@@ -124,7 +127,7 @@ export default defineComponent({
             // Remove the octave number from the note
             this.selectedNote = this.selectedNote.map(item => item.replace(/\d/g, ''));
             this.toGuessNote = this.toGuessNote.map(item => item.replace(/\d/g, ''));
-
+            
             if (this.selectedNote.length === this.toGuessNote.length && this.selectedNote.every((value, index) => value === this.toGuessNote[index])) {
     
                 this.message = "Good girl! ";
@@ -141,7 +144,8 @@ export default defineComponent({
             this.currentExerciseNumber++;
             this.selectedNote = [];
             this.toGuessNote = [];
-            SetupTest.reset();
+            // What is this method supposed to do...?
+            // SetupSetOfNotes.reset();
         },
 
         /**

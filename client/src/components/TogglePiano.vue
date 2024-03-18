@@ -25,7 +25,7 @@ export default defineComponent({
             'C6'
         ];
 
-        const selectedNotes = reactive([] as string[]);
+        let selectedNotes = reactive([] as string[]);
 
         const synth = new Tone.Synth().toDestination();
 
@@ -50,13 +50,23 @@ export default defineComponent({
             return selectedNotes.includes(note);
         }
 
+        const reset = () => {
+            selectedNotes = [];
+        }
+
         return { selectedNotes, notes, playNote, isBlackKey, sendNoteEvent, isSelected };
     },
-    methods: {
+    /**
+     * This code right here is... useless? It's trying to reset a constant in the data object, and we haven't
+     * even defined data, so this is not required. What is this? This is the cause of multiple errors on the console.
+     * In components such as Piano and TogglePiano, remember to USE the Options API and ONLY THAT.
+     * Doing otherwise will create bugs (also Tone.js has some problems with Composition API).
+     * methods: {
         reset() {
             this.selectedNotes = [];
         }
     },
+     */
 });
 </script>
 
@@ -110,6 +120,8 @@ $selected-black-key-color: #7a3737;
 }
 
 // Temporary media queries
+
+/*
 
 @media screen and (min-width: 821px) and (max-width: 1024px) {
     .piano-keys {
@@ -180,6 +192,37 @@ $selected-black-key-color: #7a3737;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
         background-color: #000;
+        z-index: 2;
+        margin: 0 -20px 0 -20px;
+    }
+}
+*/
+
+@media screen and (max-width: 960px) {
+    .piano-container {
+        width: 90%;
+        height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        overflow-x: scroll;
+    }
+
+    .piano-keys {
+        width: 3rem;
+        cursor: pointer;
+        position: relative;
+        height: 16rem;
+        border-radius: 10px;
+        border: 1px solid #000;
+    }
+
+    .black-key {
+        width: 1.8rem;
+        height: 10rem;
+        border-radius: 5px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
         z-index: 2;
         margin: 0 -20px 0 -20px;
     }

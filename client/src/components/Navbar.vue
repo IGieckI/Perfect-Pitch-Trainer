@@ -35,6 +35,7 @@
 $text-color: #FFFFFF;
 $text-hover-color: #000000;
 $brand-size-px: 32px;
+$brand-size-mobile-px: 24px;
 $font-size-px: 26px;
 $border-color: #00000044;
 
@@ -48,6 +49,10 @@ $border-color: #00000044;
         color: $text-color;
         font-weight: bolder;
         margin-right: 10%;
+
+        @media screen and (max-width: 500px) {
+            font-size: $brand-size-mobile-px
+        }
     }
 
     .nav-link {

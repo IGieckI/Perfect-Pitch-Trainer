@@ -1,7 +1,9 @@
 <template>
     <div class="piano-container">
         <ul class="piano-keys-list">
-            <li v-for="(note, index) in notes" :key="index" class="key" :class="{ 'black-key': isBlackKey(note), 'white-key': !isBlackKey(note) }" @mousedown="playNote(note); sendNoteEvent(note);" @mouseup="stopNote"></li>
+            <li v-for="(note, index) in notes" :key="index" class="key" :class="{ 'black-key': isBlackKey(note), 'white-key': !isBlackKey(note)}" 
+            @mousedown="playNote(note); sendNoteEvent(note);" @mouseup="stopNote" @touchstart.prevent="playNote(note); sendNoteEvent(note)"
+            @touchend.prevent="stopNote()"></li>
         </ul>
     </div>
 </template>
@@ -12,13 +14,13 @@ import * as Tone from 'tone';
 
 export default defineComponent({
     name: 'PlayablePiano',
-    data() {
+    setup(_, { emit }) {
         // Notes of each key in the piano
         const notes = [
         'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4',
         'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5',
-        'C6'
-    ];
+        'C6',
+        ];
 
     const synth = new Tone.Synth().toDestination();
 
@@ -31,17 +33,22 @@ export default defineComponent({
     };
 
     const isBlackKey = (note: string) => note.includes('#');
+    
+    const sendNoteEvent = (note: string) => {
+        emit('note-played-by-player', note);
+    }
 
-    return { notes, playNote, stopNote, isBlackKey };
-    },
-  methods: {
-    sendNoteEvent(note: string) {
-        this.$emit('note-played-by-player', note);
-    },
-},});
+    return { notes, playNote, stopNote, isBlackKey, sendNoteEvent };
+}
+},);
 </script>
 
 <style scoped lang="scss">
+$unselected-white-key-color: #ffffff;
+$selected-white-key-color: #f0c0c0;
+$unselected-black-key-color: #000000;
+$selected-black-key-color: #7a3737;
+
 .piano-container {
     display: flex;
     justify-content: center;
@@ -61,7 +68,7 @@ export default defineComponent({
         border: 1px solid #000;
 
         &.white-key {
-            background-color: white;
+            background-color: $unselected-white-key-color;
         }
 
         &.black-key {
@@ -70,7 +77,7 @@ export default defineComponent({
             border-radius: 5px;
             border-top-left-radius: 0;
             border-top-right-radius: 0;
-            background-color: #000;
+            background-color: $unselected-black-key-color;
             z-index: 2;
             margin: 0 -18px 0 -18px;
         }
@@ -79,6 +86,7 @@ export default defineComponent({
 
 // Temporary media queries
 
+/*
 @media screen and (min-width: 821px) and (max-width: 1024px) {
     .piano-keys {
         width: 3rem;
@@ -100,7 +108,9 @@ export default defineComponent({
         margin: 0 -20px 0 -20px;
     }
 }
+*/
 
+/*
 @media screen and (min-width: 768px) and (max-width: 820px) {
     .piano-keys {
         width: 3rem;
@@ -110,6 +120,7 @@ export default defineComponent({
         border-radius: 10px;
         border: 1px solid #000;
     }
+    
 
     .black-key {
         width: 1.8rem;
@@ -122,10 +133,12 @@ export default defineComponent({
         margin: 0 -20px 0 -20px;
     }
 }
+*/
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 960px) {
     .piano-container {
         width: 90%;
+        height: 60vh;
         display: flex;
         align-items: center;
         justify-content: flex-start;
@@ -147,7 +160,6 @@ export default defineComponent({
         border-radius: 5px;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
-        background-color: #000;
         z-index: 2;
         margin: 0 -20px 0 -20px;
     }

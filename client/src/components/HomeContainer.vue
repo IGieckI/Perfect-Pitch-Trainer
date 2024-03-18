@@ -58,6 +58,10 @@ $submit-button-color: #570000;
         font-size: 23px;
         width: 30%;
 
+        @media screen and (max-width:600px) {
+            width: 50%;
+        }
+
         &:hover {
             background-color: lighten($submit-button-color, 10%);
         }

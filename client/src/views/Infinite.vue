@@ -101,6 +101,7 @@ export default defineComponent({
             // Reset the environment
             this.selectedNote = [];
             this.toGuessNote = [];
+            SetupInfinite.reset();
         },
         
         /**
