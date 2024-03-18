@@ -22,7 +22,6 @@ import Saxophone from '../components/Saxophone.vue';
 import SetupTest from '../components/SetupSetOfNotes.vue';
 import CorrectSound from '../assets/correct_sound_effect.mp3';
 import WrongSound from '../assets/wrong_sound_effect.mp3';
-import SetupInfinite from '../components/SetupInfinite.vue';
 
 /**
  * There's a big issue with the game at the moment. If the user selects an exercise number bigger than one,
