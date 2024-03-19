@@ -32,37 +32,44 @@
 </template>
 
 <style scoped lang="scss">
-$text-color: #FFFFFF;
-$text-hover-color: #000000;
-$brand-size-px: 32px;
-$brand-size-mobile-px: 24px;
-$font-size-px: 26px;
+$text-color: #ca9c26;
+$text-hover-color: #ffbf00;
+$brand-size-mobile: 24px;
+$font-size: 26px;
+$font-weight: 600;
 $border-color: #00000044;
 
 .navbar {
-
     text-align: center;
     border-bottom: 1px solid $border-color;
 
     .navbar-brand {
-        font-size: $brand-size-px;
+        font-size: $font-size;
         color: $text-color;
-        font-weight: bolder;
+        font-weight: $font-weight;
         margin-right: 10%;
-
-        @media screen and (max-width: 500px) {
-            font-size: $brand-size-mobile-px
-        }
-    }
-
-    .nav-link {
-        font-size: $font-size-px;
-        color: $text-color;
-        font-weight: bold;
-
+        transition: color 0.3s ease;
         &:hover {
             color: $text-hover-color;
         }
+
+    // Adjust brand size on mobile devices
+    @media screen and (max-width: 500px) {
+    font-size: $brand-size-mobile;
+        }
+    }
+
+  // Nav link styles with hover and active state customization
+    .nav-link, .router-link-exact-active {
+        font-size: $font-size;
+        color: $text-color;
+        font-weight: $font-weight;
+        transition: color 0.3s ease;
+
+        &:hover, &.router-link-exact-active {
+        color: $text-hover-color;
+        }
     }
 }
+
 </style>
