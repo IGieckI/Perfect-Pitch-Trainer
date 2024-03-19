@@ -145,15 +145,7 @@ $selected-black-key-color: #7a3737;
         overflow: auto;
     }
 
-    .piano-keys {
-        width: 3rem;
-        cursor: pointer;
-        position: relative;
-        height: 16rem;
-        border-radius: 10px;
-        border: 1px solid #000;
-    }
-
+    /*
     .black-key {
         width: 1.8rem;
         height: 10rem;
@@ -163,6 +155,7 @@ $selected-black-key-color: #7a3737;
         z-index: 2;
         margin: 0 -20px 0 -20px;
     }
+    */
 }
 
 </style>
