@@ -46,21 +46,22 @@ $submit-button-color: #570000;
     height: auto;
     font-size: 22px;
     transition: transform 0.3s ease-in-out;
+    justify-content: space-between;
     &:hover {
         transform: translateY(-10px);
         background-color: $wrapper-hover-background-color;
         transition: 0.7s ease-in-out;
     }
 
+    @media screen and (max-width: 1202px) {
+        // On mobile it's impossible to hover, so we make containers white by default.
+        background-color: $wrapper-hover-background-color;
+    }
     .btn {
         background-color: $submit-button-color;
         color: $submit-button-text-color;
         font-size: 23px;
         width: 30%;
-
-        @media screen and (max-width:600px) {
-            width: 40%;
-        }
 
         @media screen and (max-width: 1202px) {
             width: 40%;
