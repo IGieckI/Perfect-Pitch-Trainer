@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import Navbar from './components/Navbar.vue';
+import { Transition } from 'vue';
 
 </script>
 
 <template>
   <Navbar />
-  <RouterView />
+  <Transition name="fade">
+    <RouterView />
+  </Transition>
 </template>
 
 <style scoped>

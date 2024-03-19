@@ -2,9 +2,9 @@
     <div class="container-fluid">
         <div class="row mt-5">
             <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
-                <SetupTest @setup-complete="setFilters" v-if="!setupComplete" />
+                <SetupSetOfNotes @setup-complete="setFilters" v-if="!setupComplete" />
                 <div class="game-wrapper d-flex flex-column justify-content-center text-center">
-                    <Saxophone class="mt-4" @play-note="playNote()" @check-note="checkNote()" v-if="setupComplete" />
+                    <Saxophone class="mt-4" @play-note="playNote()" @check-note="checkNote(); " v-if="setupComplete" />
                     <h1 v-if="setupComplete" class="text-light">Turn: {{ currentExerciseNumber }}/{{ exerciseNumber }}</h1>
                     <h2 v-if="setupComplete" class="text-light">{{ message }}</h2>
                     <TogglePiano @note-played-by-player="notePlayed" class="mt-4" v-if="setupComplete" />
@@ -19,7 +19,7 @@ import { defineComponent } from 'vue';
 import * as Tone from 'tone';
 import TogglePiano from '../components/TogglePiano.vue';
 import Saxophone from '../components/Saxophone.vue';
-import SetupTest from '../components/SetupSetOfNotes.vue';
+import SetupSetOfNotes from '../components/SetupSetOfNotes.vue';
 import CorrectSound from '../assets/correct_sound_effect.mp3';
 import WrongSound from '../assets/wrong_sound_effect.mp3';
 
@@ -47,6 +47,7 @@ export default defineComponent({
             // Define an array to store the notes currently selected by the user
             selectedNote: [] as string[],
             message: "",
+            resetNotes: false,
         };
     },
     methods: {
@@ -78,7 +79,6 @@ export default defineComponent({
             }
 
             this.message = "Select the key(s) you think were played and then press the saxophone!";
-
             this.toGuessNote = this.totalNotes[Math.floor(Math.random() * this.totalNotes.length)];
             
             /* CODE TO BE USED TO LOAD EACH NOTE FROM THE SERVER
@@ -143,6 +143,7 @@ export default defineComponent({
             this.currentExerciseNumber++;
             this.selectedNote = [];
             this.toGuessNote = [];
+            this.resetNotes = !this.resetNotes;
             // What is this method supposed to do...?
             // SetupSetOfNotes.reset();
         },
@@ -158,7 +159,7 @@ export default defineComponent({
             }
         },
     },
-    components: { TogglePiano, Saxophone, SetupTest }
+    components: { TogglePiano, Saxophone, SetupSetOfNotes }
 })
 </script>
 
