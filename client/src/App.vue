@@ -7,7 +7,9 @@ import { Transition } from 'vue';
 <template>
   <Navbar />
   <Transition name="fade">
-    <RouterView />
+    <div>
+      <RouterView />
+    </div>
   </Transition>
 </template>
 
