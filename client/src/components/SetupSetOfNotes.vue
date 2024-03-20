@@ -12,7 +12,7 @@
             </div>
         </form>
         <div class="text-center mt-4 mb-3" form="notesConfigurationForm">
-            <button type="submit" class="btn fs-5" @click.prevent="onSubmit">Confirm</button>
+            <button type="submit" class="btn fs-5" @click.prevent="onSubmit" :disabled="isButtonDisabled">Confirm</button>
         </div>
     </div>
 </template>
@@ -29,21 +29,19 @@ export default defineComponent({
             exerciseNumber: 1
         }
     },
+    computed: {
+        /**
+         * Computed property that checks if input is valid to enable or disable the confirm button.
+         */
+        isButtonDisabled() {
+            return this.selectedItems.length === 0 || this.exerciseNumber < 1;
+        }
+    },
     methods: {
         /**
-         * Check input data and then emits the setup-complete event
+         * Emits the setup-complete event
          */
         onSubmit() {
-            if (this.selectedItems.length == 0) {
-                alert('Please select at least one item');
-                return;
-            }
-
-            if (this.exerciseNumber < 1) {
-                alert('Please select a valid exercise number');
-                return;
-            }
-
             this.$emit('setup-complete', this.selectedItems, this.exerciseNumber);
         }
     }
