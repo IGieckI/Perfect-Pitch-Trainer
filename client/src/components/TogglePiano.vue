@@ -50,11 +50,12 @@ export default defineComponent({
             return selectedNotes.includes(note);
         }
 
+        // This method fully resets the selectedNotes array.
         const reset = () => {
-            selectedNotes = [];
+            selectedNotes.splice(0, selectedNotes.length);
         }
 
-        return { selectedNotes, notes, playNote, isBlackKey, sendNoteEvent, isSelected };
+        return { selectedNotes, notes, playNote, isBlackKey, sendNoteEvent, isSelected, reset };
     },
     /**
      * This code right here is... useless? It's trying to reset a constant in the data object, and we haven't

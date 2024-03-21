@@ -7,7 +7,7 @@
                     <Saxophone class="mt-4" @play-note="playNote()" @check-note="checkNote(); " v-if="setupComplete" />
                     <h1 v-if="setupComplete" class="text-light">Turn: {{ currentExerciseNumber }}/{{ exerciseNumber }}</h1>
                     <h2 v-if="setupComplete" class="text-light">{{ message }}</h2>
-                    <TogglePiano @note-played-by-player="notePlayed" class="mt-4" v-if="setupComplete" />
+                    <TogglePiano ref="togglePiano" @note-played-by-player="notePlayed" class="mt-4" v-if="setupComplete" />
                 </div>
             </div>
         </div>
@@ -47,7 +47,6 @@ export default defineComponent({
             // Define an array to store the notes currently selected by the user
             selectedNote: [] as string[],
             message: "",
-            resetNotes: false,
         };
     },
     methods: {
@@ -143,9 +142,8 @@ export default defineComponent({
             this.currentExerciseNumber++;
             this.selectedNote = [];
             this.toGuessNote = [];
-            this.resetNotes = !this.resetNotes;
-            // What is this method supposed to do...?
-            // SetupSetOfNotes.reset();
+            // Resets the component's array when notes are checked
+            (this.$refs.togglePiano as any).reset();
         },
 
         /**
