@@ -1,20 +1,17 @@
-// External Dependencies
 import * as mongoDB from "mongodb";
 import * as dotenv from "dotenv";
 import e from "express";
-import { env } from "process";
 
-// Global Variables
 export const collections: { games?: mongoDB.Collection, stats?: mongoDB.Collection } = {}
+
+dotenv.config();
+
+const client: mongoDB.MongoClient = new mongoDB.MongoClient(envVarCheck(process.env.DB_CONN_STRING, "DB_CONN_STRING"));
 
 /**
  * Connect to the database and set the collections to the global variable.
  */
-export async function connectToDatabase() {
-    dotenv.config();
-
-    const client: mongoDB.MongoClient = new mongoDB.MongoClient(envVarCheck(process.env.DB_CONN_STRING, "DB_CONN_STRING"));
-            
+export async function connectToDatabase() {            
     await client.connect();
         
     const db: mongoDB.Db = client.db(process.env.DB_NAME);

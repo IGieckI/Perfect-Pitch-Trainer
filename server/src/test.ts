@@ -4,10 +4,8 @@ import { gamesRouter } from './routes/GamesRouter';
 import { statsRouter } from './routes/StatsRouter';
 import InfiniteGame from './models/InfiniteGame';
 import SetOfNotesGame from './models/SetOfNotesGame';
-import dotenv from 'dotenv';
-import { dot } from 'node:test/reporters';
 
-dotenv.config();
+import { dot } from 'node:test/reporters';
 
 app.use('/games', gamesRouter);
 app.use('/stats', statsRouter);
