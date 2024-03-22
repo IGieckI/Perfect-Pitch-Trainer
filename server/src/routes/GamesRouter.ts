@@ -1,25 +1,26 @@
-// External Dependencies
 import express, { Request, Response } from "express";
-import { collections } from "../services/DatabaseService";
+import { collections, connectToDatabase } from "../services/DatabaseService";
 import InfiniteGame from "../models/InfiniteGame";
 import SetOfNotesGame from "../models/SetOfNotesGame";
 
-// Global Config
 export const gamesRouter = express.Router();
-
 gamesRouter.use(express.json());
+
+// Ensure connection to the DB
+connectToDatabase();
 
 /**
  * Get all infinite games from the database.
  */
 gamesRouter.get("/get-all-infinite-games", async (req: Request, res: Response) => {
-    if (!collections.games) {
+    if (!collections.infinite_games) {
         res.status(500).send("Database connection not established.");
         return;
     }
 
     try {
-        const gamesData = await collections.games.find().toArray();
+        const gamesData = await collections.infinite_games.find().toArray();
+
         const games = gamesData.map((game: any) => new InfiniteGame(game.player_id, game.score));
 
         if (games.length > 0) {
@@ -36,13 +37,14 @@ gamesRouter.get("/get-all-infinite-games", async (req: Request, res: Response) =
  * Get all set of notes games from the database.
  */
 gamesRouter.get("/get-all-set-of-notes-games", async (req: Request, res: Response) => {
-    if (!collections.games) {
+    if (!collections.set_of_notes_games) {
         res.status(500).send("Database connection not established.");
         return;
     }
 
     try {
-        const gamesData = await collections.games.find().toArray();
+        const gamesData = await collections.set_of_notes_games.find().toArray();
+
         const games = gamesData.map((game: any) => new SetOfNotesGame(game.player_id, game.n_turns, game.n_categories, game.n_correct));
 
         if (games.length > 0) {
@@ -59,14 +61,14 @@ gamesRouter.get("/get-all-set-of-notes-games", async (req: Request, res: Respons
  * Create a new set of notes game in the database.
  */
 gamesRouter.post("/post-set-of-notes-game", async (req: Request, res: Response) => {
-    if (!collections.games) {
+    if (!collections.set_of_notes_games) {
         res.status(500).send("Database connection not established.");
         return;
     }
 
     try {
         const newGame = req.body as SetOfNotesGame;
-        const result = await collections.games.insertOne(newGame);
+        const result = await collections.set_of_notes_games.insertOne(newGame);
 
         if (result.insertedId) {
             res.status(201).send(`Successfully created a new game with id ${result.insertedId}`);
@@ -82,14 +84,14 @@ gamesRouter.post("/post-set-of-notes-game", async (req: Request, res: Response) 
  * Create a new infinite game in the database.
  */
 gamesRouter.post("/post-infinite-game", async (req: Request, res: Response) => {
-    if (!collections.games) {
+    if (!collections.infinite_games) {
         res.status(500).send("Database connection not established.");
         return;
     }
 
     try {
         const newGame = req.body as InfiniteGame;
-        const result = await collections.games.insertOne(newGame);
+        const result = await collections.infinite_games.insertOne(newGame);
 
         if (result.insertedId) {
             res.status(201).send(`Successfully created a new game with id ${result.insertedId}`);

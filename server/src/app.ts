@@ -3,7 +3,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import history from 'connect-history-api-fallback';
-import gameRouter from './routes/GamesRouter'
+import gamesRouter from './routes/GamesRouter'
 import statsRouter from './routes/StatsRouter'
 
 dotenv.config();
@@ -13,8 +13,8 @@ const app: Express = express();
 
 app.use(bodyParser.json())
 
-app.use(gameRouter)
-app.use(statsRouter)
+app.use('/games', gamesRouter);
+app.use('/stats', statsRouter);
 
 app.use(history())
 
