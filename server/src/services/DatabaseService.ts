@@ -8,6 +8,7 @@ dotenv.config();
 
 const client: mongoDB.MongoClient = new mongoDB.MongoClient(envVarCheck(process.env.DB_CONN_STRING, "DB_CONN_STRING"));
 
+// Ensure connection to the DB
 connectToDatabase();
 
 /**

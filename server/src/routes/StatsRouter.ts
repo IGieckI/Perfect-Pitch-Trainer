@@ -1,33 +1,32 @@
-// External Dependencies
 import express, { Request, Response } from "express";
 import { collections } from "../services/DatabaseService";
 import Stats from "../models/Stats";
 
-// Global Config
 export const statsRouter = express.Router();
-
 statsRouter.use(express.json());
 
 /**
- * Get all stats from the database.
+ * Get stats for a specific player from the database.
  */
-statsRouter.get("/get_all_stats", async (req: Request, res: Response) => {
+statsRouter.get("/:id", async (req: Request, res: Response) => {
     if (!collections.stats) {
         res.status(500).send("Database connection not established.");
         return;
     }
 
-    try {
-        const statsData = await collections.stats.find().toArray();
-        const stats = statsData.map((stat: any) => new Stats(stat.max_infinite_level, stat.average_infinite_accuracy, stat._id));
+    const playerId: number = parseInt(req.params.id);
 
-        if (stats.length > 0) {
-            res.status(200).send(stats);
+    try {
+        const stat = await collections.stats.findOne({ player_id: playerId });
+
+        if (stat) {
+            const playerStat = new Stats(stat.player_id, stat.best_score_infinite, stat.average_infinite_accuracy);
+            res.status(200).send(playerStat);
         } else {
-            res.status(404).send("No stats found.");
+            res.status(404).send("No stats found for this player.");
         }
     } catch (error: any) {
-        res.status(500).send(`Error retrieving games: ${error.message}`);
+        res.status(500).send(`Error retrieving stats: ${error.message}`);
     }
 });
 

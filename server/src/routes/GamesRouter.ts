@@ -6,9 +6,6 @@ import SetOfNotesGame from "../models/SetOfNotesGame";
 export const gamesRouter = express.Router();
 gamesRouter.use(express.json());
 
-// Ensure connection to the DB
-connectToDatabase();
-
 /**
  * Get all infinite games from the database.
  */

@@ -4,6 +4,7 @@ import { gamesRouter } from './routes/GamesRouter';
 import { statsRouter } from './routes/StatsRouter';
 import InfiniteGame from './models/InfiniteGame';
 import SetOfNotesGame from './models/SetOfNotesGame';
+import Stats from './models/Stats';
 
 import { dot } from 'node:test/reporters';
 
@@ -19,6 +20,12 @@ describe('Games API tests', () => {
 
     test('GET /games/get-all-set-of-notes-games', async () => {
         const response = await request(app).get('/games/get-all-set-of-notes-games');
+        expect(response.statusCode).toBe(200);
+    });
+
+    test('GET /stats/:id', async () => {
+        const id = 0;
+        const response = await request(app).get(`/stats/${id}`);
         expect(response.statusCode).toBe(200);
     });
 
