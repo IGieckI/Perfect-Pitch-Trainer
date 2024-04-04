@@ -20,8 +20,8 @@ import * as Tone from 'tone';
 import TogglePiano from '../components/TogglePiano.vue';
 import Saxophone from '../components/Saxophone.vue';
 import SetupInfinite from '../components/SetupInfinite.vue';
-import CorrectSound from '../assets/correct_sound_effect.mp3';
-import WrongSound from '../assets/wrong_sound_effect.mp3';
+import CorrectSound from '../assets/audio/correct_sound_effect.wav';
+import WrongSound from '../assets/audio/wrong_sound_effect.wav';
 
 export default defineComponent({
     data() {
@@ -100,7 +100,6 @@ export default defineComponent({
                 audio.play();
                 this.score++;
             } else {
-                this.message = "Eww, pathetic!";
                 let audio = new Audio(WrongSound);
                 audio.play();
                 this.setupComplete = false;

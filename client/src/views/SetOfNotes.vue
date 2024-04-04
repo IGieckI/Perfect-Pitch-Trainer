@@ -5,14 +5,16 @@
                 <Transition name="fade" mode="in-out">
                     <SetupSetOfNotes @setup-complete="setFilters" v-if="!setupComplete" />
                 </Transition>
-                <transition name="fade" mode="in-out">
+                <TransitionGroup name="fade" mode="in-out" tag="div">
                 <div class="game-wrapper d-flex flex-column justify-content-center text-center" key="gameWrapper" v-if="setupComplete">
                     <Saxophone class="mt-4" @play-note="playNote()" @check-note="checkNote(); " />
                     <h1 class="text-light">Turn: {{ currentExerciseNumber }}/{{ exerciseNumber }}</h1>
-                    <h2 class="text-light">{{ message }}</h2>
+                    <TransitionGroup name="fade" mode="in-out" tag="div">
+                        <h2 id="message" :class="messageClass" :key="message">{{ message }}</h2>
+                    </TransitionGroup>
                     <TogglePiano ref="togglePiano" @note-played-by-player="notePlayed" class="mt-4" />
                 </div>
-                </transition>
+                </TransitionGroup>
             </div>
         </div>
     </div>
@@ -24,15 +26,9 @@ import * as Tone from 'tone';
 import TogglePiano from '../components/TogglePiano.vue';
 import Saxophone from '../components/Saxophone.vue';
 import SetupSetOfNotes from '../components/SetupSetOfNotes.vue';
-import CorrectSound from '../assets/correct_sound_effect.mp3';
-import WrongSound from '../assets/wrong_sound_effect.mp3';
+import CorrectSound from '../assets/audio/correct_sound_effect.wav';
+import WrongSound from '../assets/audio/wrong_sound_effect.wav';
 
-/**
- * There's a big issue with the game at the moment. If the user selects an exercise number bigger than one,
- * and gets the first note correctly, they can just start spamming on the saxophone to get through all the
- * next levels. Sometimes notes are not even played, and it seems like there is some issue at the core.
- * The game doesn't fail unless the user deselects the note. If the user does so, the game will bug.
- */
 export default defineComponent({
     data() {
         return {
@@ -98,13 +94,36 @@ export default defineComponent({
             // Define an array to store the notes currently selected by the user
             selectedNote: [] as string[],
             message: "",
+            showTick: false,
+            positiveMessages: [
+                'Nice job!', 'Well done!', 'You\'re doing good!',
+                'Keep it up!', 'Nicely done!'
+            ],
+            negativeMessages: [
+                'Wrong guess!', 'Your guess was wrong!', 'Nice try, but it wasn\'t correct...',
+                'Don\'t be discouraged now!', 'Mistakes are human!'
+            ],
+            // Defines the message type for animations and colors of text
+            messageType: 'neutral', // 'positive', 'negative'
         };
+    },
+    computed: {
+        messageClass() {
+            if (this.messageType === 'positive') {
+                return 'text-success';
+            } else if (this.messageType === 'negative') {
+                return 'text-danger';
+            } else {
+                return 'text-light';
+            }
+        }
     },
     methods: {
         /**
          * Setup the environment
          */
         setFilters(selectedItems: string[], exerciseNumber: number) {
+            this.messageType = 'neutral';
             this.setupComplete = true;            
             this.exerciseNumber = exerciseNumber;
             this.message = "Press the saxophone to play the note!";
@@ -128,18 +147,10 @@ export default defineComponent({
                 return;
             }
 
-            this.message = "Select the key(s) you think were played and then press the saxophone!";
+            this.messageType = 'neutral';
+            this.message = "Select the correct keys and then press the saxophone";
             this.toGuessNote = this.totalNotes[Math.floor(Math.random() * this.totalNotes.length)];
-            
-            /* CODE TO BE USED TO LOAD EACH NOTE FROM THE SERVER
-            const note_urls: { [key: string]: string } = {};
-
-            for (let i = 0; i < random_note.length; i++) {
-                let note_url: string = random_note[i];
-                note_url = note_url.replace('#', 's');
-                note_urls[random_note[i]] = note_url + '.mp3';
-            }
-            */
+            console.log(`Notes to guess: ${this.toGuessNote}`);
 
             const sampler = new Tone.Sampler({
                 urls: {
@@ -164,9 +175,6 @@ export default defineComponent({
          * Check if the note played by the user is correct
          */
         checkNote() {
-
-            console.log(`Notes selected: ${this.selectedNote}`);
-            console.log(`Notes to guess: ${this.toGuessNote}`);
             // Check the end of the game, show the setup menu in that case
             if (this.currentExerciseNumber == this.exerciseNumber) {
                 this.setupComplete = false;
@@ -177,18 +185,23 @@ export default defineComponent({
             this.selectedNote = this.selectedNote.map(item => item.replace(/\d/g, ''));
             this.toGuessNote = this.toGuessNote.map(item => item.replace(/\d/g, ''));
             
+            // If user guesses the notes correctly, play positive sound and display positive message
+            // Else, display negative message and play negative sound.
+            // Displaying user score could be a good idea as well?
             if (this.selectedNote.length === this.toGuessNote.length && this.selectedNote.every((value, index) => value === this.toGuessNote[index])) {
     
-                this.message = "Good girl! ";
+                this.message = this.positiveMessages[Math.floor(Math.random() * this.positiveMessages.length)];
+                this.messageType = 'positive';
                 let audio = new Audio(CorrectSound);
                 audio.play();
             } else {
-                this.message = "You bastard! ";
+                this.message = this.negativeMessages[Math.floor(Math.random() * this.negativeMessages.length)];
                 let audio = new Audio(WrongSound);
+                this.messageType = 'negative';
                 audio.play();
             }
 
-            this.message += "Press the saxophone to play the note!";
+            this.message += " Press the saxophone to play the note!";
 
             this.currentExerciseNumber++;
             this.selectedNote = [];
@@ -224,5 +237,9 @@ export default defineComponent({
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
+}
+
+#message {
+    font-size: 25px;
 }
 </style>

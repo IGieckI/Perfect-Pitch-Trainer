@@ -5,7 +5,7 @@
 <template>
     <nav class="navbar navbar-expand-xl">
         <div class="container-fluid">
-            <router-link class="navbar-brand" to="/">Perfect Pitch Trainer</router-link>
+            <router-link class="navbar-brand ms-4" to="/">Perfect Pitch Trainer</router-link>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">

@@ -57,17 +57,6 @@ export default defineComponent({
 
         return { selectedNotes, notes, playNote, isBlackKey, sendNoteEvent, isSelected, reset };
     },
-    /**
-     * This code right here is... useless? It's trying to reset a constant in the data object, and we haven't
-     * even defined data, so this is not required. What is this? This is the cause of multiple errors on the console.
-     * In components such as Piano and TogglePiano, remember to USE the Options API and ONLY THAT.
-     * Doing otherwise will create bugs (also Tone.js has some problems with Composition API).
-     * methods: {
-        reset() {
-            this.selectedNotes = [];
-        }
-    },
-     */
 });
 </script>
 
@@ -122,24 +111,12 @@ $selected-black-key-color: #7a3737;
 
 @media screen and (max-width: 960px) {
     .toggle-piano-container {
-        width: 90%;
+        width: 100%;
         height: 60vh;
         display: flex;
         align-items: center;
         justify-content: flex-start;
         overflow-x: scroll;
     }
-
-    /*
-    .black-key {
-        width: 1.8rem;
-        height: 10rem;
-        border-radius: 5px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-        z-index: 2;
-        margin: 0 -20px 0 -20px;
-    }
-    */
 }
 </style>

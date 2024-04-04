@@ -9,7 +9,7 @@ export default defineComponent({
     name: 'Saxophone',
     data() {
         return {
-            hasToPlay: true
+            hasToPlay: true,
         };
     },
     methods: {
@@ -35,5 +35,6 @@ export default defineComponent({
     margin: auto;
     cursor: pointer;
 }
+
 
 </style>
