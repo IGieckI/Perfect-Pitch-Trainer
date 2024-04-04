@@ -14,8 +14,12 @@ export default defineComponent({
     },
     methods: {
 
+        /**
+         * This method emits the play-note event if hasToPlay is true.
+         * Otherwise it emits check-note event if hasToPlay is false.
+         * After emitting our event, hasToPlay is toggled, switching its state.
+         */
         sendClick() {
-            // First click is to play the note, second click is to check if the note is correct
             if (this.hasToPlay) {
                 this.$emit('play-note');
             } else {
@@ -35,6 +39,5 @@ export default defineComponent({
     margin: auto;
     cursor: pointer;
 }
-
 
 </style>

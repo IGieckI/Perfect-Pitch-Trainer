@@ -41,6 +41,13 @@ export default defineComponent({
         */
         onSubmit() {
             this.$emit('setup-complete');
+        },
+
+        /**
+         * This method retrieves the best score by the database through an API call.
+         */
+        getBestScore() {
+
         }
     }
 })

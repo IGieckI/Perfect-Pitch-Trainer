@@ -19,16 +19,36 @@ import * as Tone from 'tone';
 export default defineComponent({
     name: 'TogglePiano',
     setup(_, { emit }) {
+        /**
+         * Define the notes that can be played by our piano.
+         * Sharp notes must be written with # symbol, doing otherwise will cause errors to the application.
+         * Flat notes will cause errors as well.
+         */
         const notes = [
             'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4',
             'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5',
             'C6'
         ];
 
+        /**
+        * `selectedNotes` is a reactive array of strings.
+        *
+        * Each string in the array represents a musical note that has been selected by the user.
+        * This array is reactive, meaning that Vue.js will automatically track changes to it and update the DOM whenever it changes.
+        * This is useful for keeping track of which notes the user has selected or played, and for updating the UI in response to these changes.
+        */
         let selectedNotes = reactive([] as string[]);
 
+        // Declare our Synth.
         const synth = new Tone.Synth().toDestination();
 
+        /**
+         * 
+         * @param note - a string representing the musical note.
+         * 
+         * This method plays the desired key and inserts the note into selectedNotes.
+         * If note is already in selectedNotes, it is deleted from the array.
+         */
         const playNote = (note: string) => {
             synth.triggerAttackRelease(note, '0.2s');
             const noteIndex = selectedNotes.indexOf(note);
@@ -42,15 +62,31 @@ export default defineComponent({
 
         const isBlackKey = (note: string) => note.includes('#');
 
+        /**
+        * The `sendNoteEvent` function is an event emitter.
+        *
+        * @param note - A string representing the musical note.
+        *
+        * This function emits an event named 'note-played-by-player' with the provided note as its payload.
+        * This event can be listened to in the parent component or any other component that has access to this component's events.
+        * The purpose of this event is to notify other components when a note has been played by the player.
+        */
         const sendNoteEvent = (note: string) => {
             emit('note-played-by-player', note);
         }
 
+        /**
+         * 
+         * @param note - a string representing the musical note.
+         * This method checks if the parameter note is contained in our selectedNotes array.
+         */
         const isSelected = (note: string) => {
             return selectedNotes.includes(note);
         }
 
-        // This method fully resets the selectedNotes array.
+        /**
+         * This method fully resets the selectedNotes array.
+         */
         const reset = () => {
             selectedNotes.splice(0, selectedNotes.length);
         }

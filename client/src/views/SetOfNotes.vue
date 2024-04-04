@@ -130,6 +130,10 @@ export default defineComponent({
             this.totalNotes = [];
             this.currentExerciseNumber = 0;
             
+            /**
+             * This loop adds to totalNotes random notes that respect the filters set by the user.
+             * totalNotes will then be used to play the notes to the user.
+             */
             for (let i = 0; i < selectedItems.length; i++) {
                 let notes: string[][] = this.notes[selectedItems[i].toLowerCase()];
                 for (let j = 0; j < notes.length; j++) {
@@ -139,7 +143,7 @@ export default defineComponent({
         },
 
         /**
-         * Choose a random note to play and play it
+         * Choose a random note to play from totalNotes and play it
          */
         playNote() {
             if (this.currentExerciseNumber == this.exerciseNumber) {
@@ -185,9 +189,11 @@ export default defineComponent({
             this.selectedNote = this.selectedNote.map(item => item.replace(/\d/g, ''));
             this.toGuessNote = this.toGuessNote.map(item => item.replace(/\d/g, ''));
             
-            // If user guesses the notes correctly, play positive sound and display positive message
-            // Else, display negative message and play negative sound.
-            // Displaying user score could be a good idea as well?
+            /**
+             * If user guesses the notes, play a positive sound and display a positive message.
+             * Else, display a negative message and play a negative sound.
+             * Displaying current user score somewhere on the UI could be a good idea.
+             */
             if (this.selectedNote.length === this.toGuessNote.length && this.selectedNote.every((value, index) => value === this.toGuessNote[index])) {
     
                 this.message = this.positiveMessages[Math.floor(Math.random() * this.positiveMessages.length)];

@@ -22,6 +22,9 @@ export default defineComponent({
 
         }
     },
+    /**
+     * Handles click on this container's button, emitting an event.
+     */
     methods: {
         handleClick() {
             this.$emit('button-clicked');

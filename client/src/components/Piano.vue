@@ -15,7 +15,9 @@ import * as Tone from 'tone';
 export default defineComponent({
     name: 'PlayablePiano',
     setup(_, { emit }) {
-        // Notes of each key in the piano
+        // Define the notes that can be played by our piano.
+        // Sharp notes must be written with # symbol, doing otherwise will cause errors to the application.
+        // Flat notes will cause errors as well.
         const notes = [
         'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4',
         'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5',
@@ -24,16 +26,36 @@ export default defineComponent({
 
     const synth = new Tone.Synth().toDestination();
 
+    /**
+     * 
+     * @param note of type string
+     * This method is executed when a key is clicked.
+     */
     const playNote = (note: string) => {
         synth.triggerAttack(note);
     };
 
+    /**
+     * Release the played note.
+     */
     const stopNote = () => {
         synth.triggerRelease();
     };
 
+    /**
+     * This method determines if a piano key is black by checking if there is the # symbol.
+     */
     const isBlackKey = (note: string) => note.includes('#');
     
+    /**
+    * The `sendNoteEvent` function is an event emitter.
+    *
+    * @param note - A string representing the musical note.
+    *
+    * This function emits an event named 'note-played-by-player' with the provided note as its payload.
+    * This event can be listened to in the parent component or any other component that has access to this component's events.
+    * The purpose of this event is to notify other components when a note has been played by the player.
+    */
     const sendNoteEvent = (note: string) => {
         emit('note-played-by-player', note);
     }

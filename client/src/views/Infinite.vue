@@ -2,11 +2,15 @@
     <div class="container-fluid">
         <div class="row mt-5">
             <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3 justify-content-center">
-                <SetupInfinite :lastScoreP="score" :bestScore="bestScore" @setup-complete="setFilters" v-if="!setupComplete" />
+                <Transition name="fade" mode="in-out">
+                    <SetupInfinite :lastScoreP="score" :bestScore="bestScore" @setup-complete="setFilters" v-if="!setupComplete" />
+                </Transition>
                 <div class="game-wrapper d-flex flex-column justify-content-center text-center">
                     <Saxophone class="mt-4 justify-self-center" @play-note="playNote()" @check-note="checkNote()" v-if="setupComplete" />
                     <h1 v-if="setupComplete" class="text-light">Score: {{ score }}</h1>
-                    <h2 v-if="setupComplete" class="text-light">{{ message }}</h2>
+                    <TransitionGroup name="fade" mode="in-out" tag="div">
+                        <h2 v-if="setupComplete" class="text-light" :key="message">{{ message }}</h2>
+                    </TransitionGroup>
                     <TogglePiano ref="togglePiano" @note-played-by-player="notePlayed" class="mt-4" v-if="setupComplete" />
                 </div>
             </div>
@@ -27,7 +31,7 @@ export default defineComponent({
     data() {
         return {
             // Define an array with every possible note
-            // Only define sharp notes, flat notes are not accepted and will cause errors.
+            // Only define sharp notes using the # symbol, flat notes are not accepted and will cause errors.
             notes: [
                 ['C1'], ['C#1'], ['D1'], ['D#1'], ['E1'], ['F1'], ['F#1'], ['G1'], ['G#1'], ['A1'], ['A#1'], ['B1'],
                 ['C2'], ['C#2'], ['D2'], ['D#2'], ['E2'], ['F2'], ['F#2'], ['G2'], ['G#2'], ['A2'], ['A#2'], ['B2'],
@@ -46,7 +50,7 @@ export default defineComponent({
             // Define an array to store the notes currently selected by the user
             selectedNote: [] as string[],
             message: "",
-            positiveMessages: ["Good", "Good good", "Very nice", "Damn", "Keep going like this", "What a ear", "Wow, you impressed me"],
+            positiveMessages: ["Good!", "Very nice!", "Damn!", "Keep going like this!", "Doing good!", "Nice job!"],
         };
     },
     methods: {
@@ -67,6 +71,7 @@ export default defineComponent({
     
             this.toGuessNote = this.notes[Math.floor(Math.random() * this.notes.length)];
             console.log(this.toGuessNote);
+            // Declaring our piano.
             const sampler = new Tone.Sampler({
                 urls: {
                     A1: "A1.mp3",
@@ -90,7 +95,7 @@ export default defineComponent({
          * Check if the note played by the user is correct
          */
         checkNote() {
-            // Remove the octave number from the note
+            // Remove the octave number from the note, as we do not care about the user getting the right octave.
             this.selectedNote = this.selectedNote.map(item => item.replace(/\d/g, ''));
             this.toGuessNote = this.toGuessNote.map(item => item.replace(/\d/g, ''));
 
@@ -105,12 +110,12 @@ export default defineComponent({
                 this.setupComplete = false;
             }
 
-            this.message += ", press the saxophone to play the next note!";
+            this.message += " Press the saxophone to play the next note!";
 
             // Reset the environment
             this.selectedNote = [];
             this.toGuessNote = [];
-            // Resets the component's array when notes are checked
+            // Resets the togglePiano's selectedNotes array when notes are checked.
             (this.$refs.togglePiano as any).reset();
         },
         
@@ -130,5 +135,16 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.fade-enter-active {
+    transition: opacity 0.5s ease;
+}
 
+.fade-leave-active {
+    transition: opacity 0s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
 </style>
