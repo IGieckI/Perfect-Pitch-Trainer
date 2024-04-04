@@ -18,16 +18,14 @@ import { defineComponent } from 'vue';
 export default defineComponent({
     name: 'HomeContainer',
     data() {
+        return {
 
+        }
     },
     methods: {
         handleClick() {
             this.$emit('button-clicked');
         },
-
-        handleHover() {
-            
-        }
     }
 })
 </script>

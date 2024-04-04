@@ -1,6 +1,22 @@
-<script setup lang="ts">
+<script lang="ts">
 import Navbar from './components/Navbar.vue';
-import { Transition } from 'vue';
+import { Transition, defineComponent } from 'vue';
+
+export default defineComponent ({
+  data() {
+    return {
+
+    }
+  },
+  methods: {
+
+  },
+  mounted() {
+
+  },
+
+  components: { Navbar }
+})
 
 </script>
 
@@ -11,17 +27,6 @@ import { Transition } from 'vue';
   </Transition>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+<style scoped lang="scss">
+
 </style>
