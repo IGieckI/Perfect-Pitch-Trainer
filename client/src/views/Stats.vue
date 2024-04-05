@@ -11,11 +11,8 @@
                 <StatsCard :number="infiniteBestScore">
                     <template v-slot:default>Infinite Best Score</template>
                 </StatsCard>
-                <StatsCard :number="setOfNotesBestScore">
-                    <template v-slot:default>SON Best Score</template>
-                </StatsCard>
-                <StatsCard :number="correctGuessPercentage">
-                    <template v-slot:default>Correct Guess %</template>
+                <StatsCard :number="noteAccuracyPercentage">
+                    <template v-slot:default>SON Note Accuracy</template>
                 </StatsCard>
             </div>
             <hr class="mt-5">
@@ -31,14 +28,14 @@
 import { defineComponent } from 'vue';
 import StatsCard from '../components/StatsCard.vue';
 import userIcon from '../assets/img/userIcon.png';
+import axios from 'axios';
 
 export default defineComponent({
     data() {
         return {
             userIcon,
             infiniteBestScore: 0,
-            setOfNotesBestScore: 0,
-            correctGuessPercentage: 0,
+            noteAccuracyPercentage: '',
         }
     },
     /**
@@ -46,10 +43,23 @@ export default defineComponent({
      * Chart.js code is also needed to represent canvas, but I need some data to work on.
      */
     methods: {
-
+        /**
+         * Get user stats through a GET request.
+         */
+        async getUserStats() {
+            const response = await axios.get('/api/stats/get-stats/0');
+            if (response && response.status === 200) {
+                this.infiniteBestScore = response.data.best_score_infinite;
+                this.noteAccuracyPercentage = response.data.average_accuracy_set_of_notes;
+                this.noteAccuracyPercentage += '%';
+            } else {
+                console.error('Could not retrieve data. Values will be initialized to 0.')
+                this.noteAccuracyPercentage = '0%';
+            }
+        },
     },
     mounted() {
-
+        this.getUserStats();
     },
 
     components: { StatsCard }
@@ -83,7 +93,7 @@ $wrapper-text-color: #000000;
             flex-direction: column;
 
             #userPfp {
-                width: 30%;
+                width: 40%;
             }
         }
 
