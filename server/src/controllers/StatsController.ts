@@ -17,7 +17,7 @@ export const getStats = async (req: Request, res: Response) => {
         const stat = await collections.stats.findOne({ player_id: playerId });
 
         if (stat) {
-            const playerStat = new Stats(stat.player_id, stat.best_score_infinite, stat.average_infinite_accuracy);
+            const playerStat = new Stats(stat.player_id, stat.best_score_infinite, stat.average_accuracy_set_of_notes);
             res.status(200).send(playerStat);
         } else {
             res.status(404).send("No stats found for this player.");
