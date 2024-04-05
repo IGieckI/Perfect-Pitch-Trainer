@@ -97,7 +97,6 @@ export const postSetOfNotesGame = async (req: Request, res: Response) => {
         newGame.date = new Date();
 
         const result = await collections.set_of_notes_games.insertOne(newGame);
-        console.log(newGame);
 
         if (result.insertedId) {
             res.status(201).send(`Successfully created a new game with id ${result.insertedId}`);

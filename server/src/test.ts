@@ -2,18 +2,27 @@ import request from 'supertest';
 import app from './app';
 import { gamesRouter } from './routes/GamesRouter';
 import { statsRouter } from './routes/StatsRouter';
+import { testsRouter } from './routes/TestsRouter';
 import InfiniteGame from './models/InfiniteGame';
 import SetOfNotesGame from './models/SetOfNotesGame';
 import Stats from './models/Stats';
-
-import { dot } from 'node:test/reporters';
 
 app.use('/api/games', gamesRouter);
 app.use('/api/stats', statsRouter);
 
 describe('Games API tests', () => {
 
+    beforeAll(async () => {
+        await request(app).post('/tests/generate-mock-data');
+    });
+
+    afterAll(async () => {
+        await request(app).post('/tests/delete-mock-data');
+    });
+
     test('POST /api/games/post-set-of-notes-game', async () => {
+        const response2 = await request(app)
+            .post('/tests/generate-mock-data');
         const newGame = new SetOfNotesGame(-1, -1, -1, -1, new Date());
         const response = await request(app)
             .post('/api/games/post-set-of-notes-game')

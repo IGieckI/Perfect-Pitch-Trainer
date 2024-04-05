@@ -1,10 +1,10 @@
 import express, { Express } from 'express';
-import path from 'path';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import history from 'connect-history-api-fallback';
 import gamesRouter from './routes/GamesRouter'
 import statsRouter from './routes/StatsRouter'
+import testsRouter from './routes/TestsRouter'
 
 dotenv.config();
 let port: number = Number(process.env.SERVER_PORT);
@@ -15,6 +15,7 @@ app.use(bodyParser.json())
 
 app.use('/api/games', gamesRouter);
 app.use('/api/stats', statsRouter);
+app.use('/tests', testsRouter);
 
 app.use(history())
 
