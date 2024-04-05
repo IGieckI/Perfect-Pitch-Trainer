@@ -13,19 +13,27 @@ app.use('/api/stats', statsRouter);
 
 describe('Games API tests', () => {
 
-    test('GET /api/games/get-all-infinite-games', async () => {
-        const response = await request(app).get('/api/games/get-all-infinite-games'); 
-        expect(response.statusCode).toBe(200);
-    });
-
-    test('GET /api/games/get-all-set-of-notes-games', async () => {
-        const response = await request(app).get('/api/games/get-all-set-of-notes-games');
-        expect(response.statusCode).toBe(200);
-    });
-
-    test('GET /api/stats/:id', async () => {
+    test('GET /api/games/get-all-infinite-games/:id', async () => {
         const id = 0;
-        const response = await request(app).get(`/api/stats/${id}`);
+        const response = await request(app).get(`/api/games/get-all-infinite-games/${id}`); 
+        expect(response.statusCode).toBe(200);
+    });
+
+    test('GET /api/games/get-all-set-of-notes-games/:id', async () => {
+        const id = 0;
+        const response = await request(app).get(`/api/games/get-all-set-of-notes-games/${id}`);
+        expect(response.statusCode).toBe(200);
+    });
+
+    test('GET /api/stats/get-stats/:id', async () => {
+        const id = 0;
+        const response = await request(app).get(`/api/stats/get-stats/${id}`);
+        expect(response.statusCode).toBe(200);
+    });
+
+    test('GET /api/games/get-last-infinite-game/:id', async () => {
+        const id = 0;
+        const response = await request(app).get(`/api/games/get-last-infinite-game/${id}`);
         expect(response.statusCode).toBe(200);
     });
 
@@ -42,6 +50,15 @@ describe('Games API tests', () => {
         const response = await request(app)
             .post('/api/games/post-infinite-game')
             .send(newGame);
+        expect(response.statusCode).toBe(201);
+    });
+
+    test('POST /api/stats/update-stats/:id', async () => {
+        const id = 0;
+        const updatedStats = new Stats(id, 10000, 100);
+        const response = await request(app)
+            .put(`/api/stats/update-stats/${id}`)
+            .send(updatedStats);
         expect(response.statusCode).toBe(201);
     });
 });

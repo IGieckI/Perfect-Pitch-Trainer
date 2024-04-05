@@ -26,3 +26,32 @@ export const getStats = async (req: Request, res: Response) => {
         res.status(500).send(`Error retrieving stats: ${error.message}`);
     }
 };
+
+/**
+ * Update the stats on a given id player.
+ */
+export const updateStats = async (req: Request, res: Response) => {
+    //res.status(201).send(`Successfully updated stats`);
+    if (!collections.stats) {
+        res.status(500).send("Database connection not established.");
+        return;
+    }
+
+    try {
+        const updatedStats = req.body as Stats;
+        const playerId: number = parseInt(req.params.id);
+        
+        const result = await collections.stats.updateOne(
+            { player_id: playerId },
+            { $set: { best_score_infinite: updatedStats.best_score_infinite, average_accuracy_set_of_notes: updatedStats.average_accuracy_set_of_notes } }
+        );
+
+        if (result.acknowledged) {
+            res.status(201).send(`Successfully updated stats`);
+        } else {
+            res.status(500).send("Failed to update stats.");
+        }
+    } catch (error: any) {
+        res.status(400).send(`Error updating stats: ${error.message}`);
+    }
+};
