@@ -31,7 +31,6 @@ export const getStats = async (req: Request, res: Response) => {
  * Update the stats on a given id player.
  */
 export const updateStats = async (req: Request, res: Response) => {
-    //res.status(201).send(`Successfully updated stats`);
     if (!collections.stats) {
         res.status(500).send("Database connection not established.");
         return;

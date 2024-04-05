@@ -17,7 +17,7 @@ export const getAllInfiniteGames = async (req: Request, res: Response) => {
     try {
         const gamesData = await collections.infinite_games.find({ player_id: playerId }).toArray();
 
-        const games = gamesData.map((game: any) => new InfiniteGame(game.player_id, game.score));
+        const games = gamesData.map((game: any) => new InfiniteGame(game.player_id, game.score, game.date));
 
         if (games.length > 0) {
             res.status(200).send(games);
@@ -43,7 +43,7 @@ export const getAllSetOfNotesGames = async (req: Request, res: Response) => {
     try {
         const gamesData = await collections.set_of_notes_games.find({ player_id: playerId }).toArray();
 
-        const games = gamesData.map((game: any) => new SetOfNotesGame(game.player_id, game.n_turns, game.n_categories, game.n_correct));
+        const games = gamesData.map((game: any) => new SetOfNotesGame(game.player_id, game.n_turns, game.n_categories, game.n_correct, game.date));
 
         if (games.length > 0) {
             res.status(200).send(games);
@@ -73,7 +73,7 @@ export const getLastInfiniteGame = async (req: Request, res: Response) => {
         );
 
         if (lastGameData) {
-            const lastGame = new InfiniteGame(lastGameData.player_id, lastGameData.score);
+            const lastGame = new InfiniteGame(lastGameData.player_id, lastGameData.score, lastGameData.date);
             res.status(200).send(lastGame);
         } else {
             res.status(404).send("No game found.");
@@ -93,8 +93,11 @@ export const postSetOfNotesGame = async (req: Request, res: Response) => {
     }
 
     try {
-        const newGame = req.body as SetOfNotesGame;
+        let newGame = req.body as SetOfNotesGame;
+        newGame.date = new Date();
+
         const result = await collections.set_of_notes_games.insertOne(newGame);
+        console.log(newGame);
 
         if (result.insertedId) {
             res.status(201).send(`Successfully created a new game with id ${result.insertedId}`);
@@ -116,7 +119,9 @@ export const postInfiniteGame = async (req: Request, res: Response) => {
     }
 
     try {
-        const newGame = req.body as InfiniteGame;
+        let newGame = req.body as InfiniteGame;
+        newGame.date = new Date();
+
         const result = await collections.infinite_games.insertOne(newGame);
 
         if (result.insertedId) {
