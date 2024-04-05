@@ -13,8 +13,8 @@ const app: Express = express();
 
 app.use(bodyParser.json())
 
-app.use('/games', gamesRouter);
-app.use('/stats', statsRouter);
+app.use('/api/games', gamesRouter);
+app.use('/api/stats', statsRouter);
 
 app.use(history())
 
