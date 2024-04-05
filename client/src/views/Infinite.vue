@@ -3,7 +3,7 @@
         <div class="row mt-5">
             <div class="col-sm-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3 justify-content-center">
                 <Transition name="fade" mode="in-out">
-                    <SetupInfinite :lastScoreP="score" :bestScore="bestScore" @setup-complete="setFilters" v-if="!setupComplete" />
+                    <SetupInfinite @setup-complete="setFilters" v-if="!setupComplete" />
                 </Transition>
                 <div class="game-wrapper d-flex flex-column justify-content-center text-center">
                     <Saxophone class="mt-4 justify-self-center" @play-note="playNote()" @check-note="checkNote()" v-if="setupComplete" />

@@ -12,28 +12,15 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-    props: {
-        // Last game score
-        lastScoreP: {
-            type: Number,
-            required: true
-        }
-    },
     data() {
         return {
             bestScore: 0,
             lastScore: 0
         }    
-    },
-    mounted() {
-        console.log("Last score: " + this.lastScoreP);
-        if (this.lastScoreP) {
-            this.lastScore = this.lastScoreP;
-            this.bestScore = this.lastScore > this.bestScore ? this.lastScore : this.bestScore;
-        }
     },
     methods: {
         /**
@@ -46,9 +33,30 @@ export default defineComponent({
         /**
          * This method retrieves the best score by the database through an API call.
          */
-        getBestScore() {
+        async getBestScore() {
+            const response = await axios.get('/api/stats/get-stats/0');
+            if (response && response.status === 200) {
+                this.bestScore = response.data.best_score_infinite;
+            } else {
+                console.error('Data could not be retrieved.');
+            }
+        },
 
+        /**
+         * This method retrieves the last game score by the database through an API call.
+         */
+        async getLastScore() {
+            const response = await axios.get('/api/games/get-last-infinite-game/0');
+            if (response && response.status === 200) {
+                this.lastScore = response.data.score;
+            } else {
+                console.error('Data could not be retrieved.');
+            }
         }
+    },
+    mounted() {
+        this.getBestScore();
+        this.getLastScore();
     }
 })
 </script>

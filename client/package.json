@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "@types/animejs": "^3.1.12",
     "@types/node": "^20.11.26",
+    "animejs": "^3.2.2",
     "axios": "^1.6.7",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.2",
