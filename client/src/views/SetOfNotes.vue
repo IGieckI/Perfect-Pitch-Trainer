@@ -28,6 +28,8 @@ import Saxophone from '../components/Saxophone.vue';
 import SetupSetOfNotes from '../components/SetupSetOfNotes.vue';
 import CorrectSound from '../assets/audio/correct_sound_effect.wav';
 import WrongSound from '../assets/audio/wrong_sound_effect.wav';
+import { SetOfNotesGame } from '../interfaces';
+import axios from 'axios';
 
 export default defineComponent({
     data() {
@@ -84,15 +86,27 @@ export default defineComponent({
                     ['G#5', 'D#6', 'C6'], ['A5', 'E6', 'C#7'], ['A#6', 'F7', 'D7'], ['A#6', 'F7', 'D7'], 
                     ['B6', 'F#7', 'D#8']]
             } as { [key: string]: string[][] },
+
             setupComplete: false,
+
             // Define an array to store the notes to guess chosen in the setup
             totalNotes: [] as string[][],
+
+            // Define informations like exercise numbers, current exercise, and correct exercise guess.
             currentExerciseNumber: 0,
             exerciseNumber: 1,
+            correctExerciseNumber: 0,
+
+            // Define the selected categories by the user
+            selectedCategories: [] as string[],
+
             // Define an array to store the note to guess, multiple notes can be played at the same time in a chord
             toGuessNote: [] as string[],
+
             // Define an array to store the notes currently selected by the user
             selectedNote: [] as string[],
+
+            // Define UI elements
             message: "",
             showTick: false,
             positiveMessages: [
@@ -129,6 +143,8 @@ export default defineComponent({
             this.message = "Press the saxophone to play the note!";
             this.totalNotes = [];
             this.currentExerciseNumber = 0;
+            this.correctExerciseNumber = 0;
+            this.selectedCategories = [...selectedItems];
             
             /**
              * This loop adds to totalNotes random notes that respect the filters set by the user.
@@ -176,11 +192,22 @@ export default defineComponent({
         },
         
         /**
-         * Check if the note played by the user is correct
+         * Check if the note played by the user is correct.
+         * Checks end of the game, if positive send game data to the server.
          */
         checkNote() {
-            // Check the end of the game, show the setup menu in that case
+            // Check the end of the game, show the setup menu in that case and send data to server.
             if (this.currentExerciseNumber == this.exerciseNumber) {
+                const game: SetOfNotesGame = {
+                    player_id: 0,
+                    n_turns: this.exerciseNumber,
+                    n_categories: this.selectedCategories.length,
+                    n_correct: this.correctExerciseNumber
+                }
+
+                axios.post('/api/games/post-set-of-notes-game', game)
+                    .then(response => console.log(response))
+                    .catch(error => console.log(error))
                 this.setupComplete = false;
                 return;
             }
@@ -199,6 +226,7 @@ export default defineComponent({
                 this.message = this.positiveMessages[Math.floor(Math.random() * this.positiveMessages.length)];
                 this.messageType = 'positive';
                 let audio = new Audio(CorrectSound);
+                this.correctExerciseNumber++;
                 audio.play();
             } else {
                 this.message = this.negativeMessages[Math.floor(Math.random() * this.negativeMessages.length)];

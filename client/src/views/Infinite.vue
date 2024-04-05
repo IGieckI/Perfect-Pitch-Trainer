@@ -26,6 +26,8 @@ import Saxophone from '../components/Saxophone.vue';
 import SetupInfinite from '../components/SetupInfinite.vue';
 import CorrectSound from '../assets/audio/correct_sound_effect.wav';
 import WrongSound from '../assets/audio/wrong_sound_effect.wav';
+import { InfiniteGame } from '../interfaces';
+import axios from 'axios';
 
 export default defineComponent({
     data() {
@@ -92,7 +94,8 @@ export default defineComponent({
         },
         
         /**
-         * Check if the note played by the user is correct
+         * Check if the note played by the user is correct.
+         * Checks end of the game, if positive send game data to the server.
          */
         checkNote() {
             // Remove the octave number from the note, as we do not care about the user getting the right octave.
@@ -107,6 +110,13 @@ export default defineComponent({
             } else {
                 let audio = new Audio(WrongSound);
                 audio.play();
+                const game: InfiniteGame = {
+                    player_id: 0,
+                    score: this.score
+                }
+                axios.post('/api/games/post-infinite-game', game)
+                    .then(response => console.log(response))
+                    .catch(error => console.log(error))
                 this.setupComplete = false;
             }
 
