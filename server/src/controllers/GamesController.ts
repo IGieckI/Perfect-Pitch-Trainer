@@ -4,16 +4,18 @@ import InfiniteGame from "../models/InfiniteGame";
 import SetOfNotesGame from "../models/SetOfNotesGame";
 
 /**
- * Get all infinite games from the database.
+ * Get all infinite games of a player from the database.
  */
 export const getAllInfiniteGames = async (req: Request, res: Response) => {
     if (!collections.infinite_games) {
         res.status(500).send("Database connection not established.");
         return;
     }
+    
+    const playerId: number = parseInt(req.params.id);
 
     try {
-        const gamesData = await collections.infinite_games.find().toArray();
+        const gamesData = await collections.infinite_games.find({ player_id: playerId }).toArray();
 
         const games = gamesData.map((game: any) => new InfiniteGame(game.player_id, game.score));
 
@@ -28,16 +30,18 @@ export const getAllInfiniteGames = async (req: Request, res: Response) => {
 };
 
 /**
- * Get all set of notes games from the database.
+ * Get all set of notes games of a player from the database.
  */
 export const getAllSetOfNotesGames = async (req: Request, res: Response) => {
     if (!collections.set_of_notes_games) {
         res.status(500).send("Database connection not established.");
         return;
     }
+    
+    const playerId: number = parseInt(req.params.id);
 
     try {
-        const gamesData = await collections.set_of_notes_games.find().toArray();
+        const gamesData = await collections.set_of_notes_games.find({ player_id: playerId }).toArray();
 
         const games = gamesData.map((game: any) => new SetOfNotesGame(game.player_id, game.n_turns, game.n_categories, game.n_correct));
 
@@ -48,6 +52,34 @@ export const getAllSetOfNotesGames = async (req: Request, res: Response) => {
         }
     } catch (error: any) {
         res.status(500).send(`Error retrieving games: ${error.message}`);
+    }
+};
+
+/**
+ * Get the last infinite game of a player.
+ */
+export const getLastInfiniteGame = async (req: Request, res: Response) => {
+    if (!collections.infinite_games) {
+        res.status(500).send("Database connection not established.");
+        return;
+    }
+    
+    const playerId: number = parseInt(req.params.id);
+
+    try {
+        const lastGameData = await collections.infinite_games.findOne(
+            { player_id: playerId },
+            { sort: { $natural: -1 } }
+        );
+
+        if (lastGameData) {
+            const lastGame = new InfiniteGame(lastGameData.player_id, lastGameData.score);
+            res.status(200).send(lastGame);
+        } else {
+            res.status(404).send("No game found.");
+        }
+    } catch (error: any) {
+        res.status(500).send(`Error retrieving game: ${error.message}`);
     }
 };
 
