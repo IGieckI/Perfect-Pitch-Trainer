@@ -18,7 +18,7 @@
             <hr class="mt-5">
             <h2 class="mt-1">Here's how you're doing overtime!</h2>
             <div class="chart-container">
-                <canvas id="chart"></canvas>
+                <canvas ref="chart"></canvas>
             </div>
         </div>
     </div>
@@ -29,6 +29,8 @@ import { defineComponent } from 'vue';
 import StatsCard from '../components/StatsCard.vue';
 import userIcon from '../assets/img/userIcon.png';
 import axios from 'axios';
+import { InfiniteGameStats, SetOfNotesGameStats } from '../interfaces';
+import { Chart, registerables } from 'chart.js';
 
 export default defineComponent({
     data() {
@@ -36,6 +38,8 @@ export default defineComponent({
             userIcon,
             infiniteBestScore: 0,
             noteAccuracyPercentage: '',
+            setOfNotesGames: [] as SetOfNotesGameStats[],
+            infiniteGames: [] as InfiniteGameStats[],
         }
     },
     /**
@@ -57,9 +61,104 @@ export default defineComponent({
                 this.noteAccuracyPercentage = '0%';
             }
         },
+
+        /**
+         * Get JSON document containing all user's set of notes games.
+         */
+        async getSetOfNotesGames() {
+            const response = await axios.get('/api/games/get-all-set-of-notes-games/0');
+            if (response && response.status === 200) {
+                console.log(response.data);
+                this.setOfNotesGames = response.data;
+            } else {
+                console.error('Could not retrieve set of notes games. Chart won\'t be visualized.');
+            }
+        },
+
+        /**
+         * Get JSON document containing all user's infinite games.
+         */
+        async getInfiniteGames() {
+            const response = await axios.get('/api/games/get-all-infinite-games/0');
+            if (response && response.status === 200) {
+                console.log(response.data);
+                this.infiniteGames = response.data;
+            } else {
+                console.error('Could not retrieve infinite games. Chart won\'t be visualized');
+            }
+        },
+
+        /**
+         * Create chart and visualize data on it.
+         */
+        createChart() {
+            const ctx = this.$refs.chart as HTMLCanvasElement;
+    
+            // Extract days and scores from the game data
+            const setOfNotesDays = this.setOfNotesGames.map(game => {
+                const date = new Date(game.date);
+                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+            });
+            const setOfNotesScores = this.setOfNotesGames.map(game => game.n_correct);
+            const infiniteDays = this.infiniteGames.map(game => {
+                const date = new Date(game.date);
+                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+            });
+            const infiniteScores = this.infiniteGames.map(game => game.score);
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [...new Set([...setOfNotesDays, ...infiniteDays])],
+                    datasets: [
+                        {
+                            label: 'Set Of Notes Scores',
+                            data: setOfNotesScores,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            fill: false
+                        },
+                        {
+                            label: 'Infinite Scores',
+                            data: infiniteScores,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Score'
+                            }
+                        }
+                    },
+                    
+                }
+            });
+        }
     },
+
     mounted() {
         this.getUserStats();
+        this.getSetOfNotesGames();
+        this.getInfiniteGames();
+        Chart.register(...registerables)
+
+        Promise.all([this.getSetOfNotesGames(), this.getInfiniteGames()])
+            .then(() => {
+                this.createChart();
+            })
     },
 
     components: { StatsCard }
@@ -94,6 +193,7 @@ $wrapper-text-color: #000000;
 
             #userPfp {
                 width: 40%;
+                margin-bottom: 20px;
             }
         }
 
@@ -103,6 +203,5 @@ $wrapper-text-color: #000000;
         }
     }
 }
-
 
 </style>
