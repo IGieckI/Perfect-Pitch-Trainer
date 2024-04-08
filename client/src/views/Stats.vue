@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
         <div class="wrapper d-flex flex-column align-self-center justify-content-center text-center">
             <div class="header d-flex justify-content-evenly align-items-center mt-4">
                 <img :src="userIcon" id="userPfp">
@@ -92,60 +92,85 @@ export default defineComponent({
          * Create chart and visualize data on it.
          */
         createChart() {
-            const ctx = this.$refs.chart as HTMLCanvasElement;
-    
-            // Extract days and scores from the game data
-            const setOfNotesDays = this.setOfNotesGames.map(game => {
-                const date = new Date(game.date);
-                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-            });
-            const setOfNotesScores = this.setOfNotesGames.map(game => game.n_correct);
-            const infiniteDays = this.infiniteGames.map(game => {
-                const date = new Date(game.date);
-                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-            });
-            const infiniteScores = this.infiniteGames.map(game => game.score);
+        const ctx = this.$refs.chart as HTMLCanvasElement;
+        
+        // Extract days and scores from the game data
+        const setOfNotesDays = this.setOfNotesGames.map(game => {
+            const date = new Date(game.date);
+            return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+        });
+        const setOfNotesScores = this.setOfNotesGames.map(game => game.n_correct);
+        const infiniteDays = this.infiniteGames.map(game => {
+            const date = new Date(game.date);
+            return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+        });
+        const infiniteScores = this.infiniteGames.map(game => game.score);
 
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: [...new Set([...setOfNotesDays, ...infiniteDays])],
-                    datasets: [
-                        {
-                            label: 'Set Of Notes Scores',
-                            data: setOfNotesScores,
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            fill: false
-                        },
-                        {
-                            label: 'Infinite Scores',
-                            data: infiniteScores,
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            fill: false
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        x: {
+        // Create objects to store the sum of scores for each day and mode
+        const setOfNotesScoresByDay: { [key: string]: number } = {};
+        const infiniteScoresByDay: { [key: string]: number } = {};
+
+        // Sum the scores for each day and mode
+        setOfNotesDays.forEach((day, index) => {
+            if (!setOfNotesScoresByDay[day]) {
+                setOfNotesScoresByDay[day] = 0;
+            }
+            setOfNotesScoresByDay[day] += setOfNotesScores[index];
+        });
+
+        infiniteDays.forEach((day, index) => {
+            if (!infiniteScoresByDay[day]) {
+                infiniteScoresByDay[day] = 0;
+            }
+            infiniteScoresByDay[day] += infiniteScores[index];
+        });
+
+        // Extract the unique days
+        const uniqueDays = [...new Set([...setOfNotesDays, ...infiniteDays])];
+
+        // Create arrays for the summed scores for each mode
+        const setOfNotesSummedScores = uniqueDays.map(day => setOfNotesScoresByDay[day] || 0);
+        const infiniteSummedScores = uniqueDays.map(day => infiniteScoresByDay[day] || 0);
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: uniqueDays,
+                datasets: [
+                    {
+                        label: 'Set Of Notes Scores',
+                        data: setOfNotesSummedScores,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false
+                    },
+                    {
+                        label: 'Infinite Scores',
+                        data: infiniteSummedScores,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
                             display: true,
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        },
-                        y: {
-                            display: true,
-                            title: {
-                                display: true,
-                                text: 'Score'
-                            }
+                            text: 'Date'
                         }
                     },
-                    
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Score'
+                        }
+                    }
                 }
-            });
+            }
+        });
         }
     },
 
@@ -166,7 +191,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-$container-color: #ffffff;
+$wrapper-color: #ffffff;
+$wrapper-shadow: 0px 4px 8px rgba(0, 0, 0, 1);
 $wrapper-text-color: #000000;
 
 .wrapper {
@@ -174,9 +200,10 @@ $wrapper-text-color: #000000;
     margin: auto;
     border-radius: 40px;
     font-family: 'Roboto', sans-serif;
-    background-color: $container-color;
+    background-color: $wrapper-color;
     border: 1px solid black;
     color: $wrapper-text-color;
+    box-shadow: $wrapper-shadow;
 
     #userPfp {
         width: 20%;
